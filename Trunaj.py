@@ -1,11 +1,29 @@
+class Rytir():
+    def __init__(self,jmeno,uc,oc,s):
+        self.jmeno = jmeno
+        self.uc = uc
+        self.oc = oc
+        self.s = s
+
+   
 def vytvor_rytire():
-    """
-    Vytvoř rytíře 1 (R1) - jméno, výdrž, zbroj
-    Vytvoř rytíře 2 (R2) - jméno, výdrž, zbroj
-                        
-    """
+    jmeno = input("Jmeno: ")
+    S = input("Vydrz: ")
+    UC = input("UC ")
+    OC = input("OC: ")
+    
+    return Rytir(jmeno,UC,OC,S)
 
 def parametry_kola():
+    rychlost = input("Zadej rychlost kone cval/klus/trysk: ")
+    kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3],}
+    
+    drevec = input ("Zvol si drevec: ")
+    typ_drevce = {"lehky":[-5,4],"stredni":[-10,6],"tezky":[-15,10],}
+    d_pos = input("Pozice drevce")
+    #Rozmyslet kam zaradit utok a obranu (metoda tridy nebo funkce)
+    #Podle toho bud rozsirit atributy a pridat metody, nebo napsat funkci
+    
     """
     Pro oba rytíře:
     Zvolit váhu dřevce
@@ -24,7 +42,7 @@ def stret():
     """
     
 def turnaj():
-    def vytvor_rytire():
+    R1 = vytvor_rytire()
     p =#pocet kol
     
     for i in range(1,p+1):
