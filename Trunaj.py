@@ -27,7 +27,7 @@ def parametry_kola():
     kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3],}
     
     drevec = input ("Zvol si drevec: ")
-    typ_drevce = {"lehky":[-5,4],"stredni":[-10,6],"tezky":[-15,10],}
+    typ_drevce = {"lehky":[-5,4],"stredni":[-10,6],"tezky":[-15,10]}
     d_pos = input("Pozice drevce")
     #Rozmyslet kam zaradit utok a obranu (metoda tridy nebo funkce)
     
