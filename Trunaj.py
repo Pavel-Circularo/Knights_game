@@ -17,11 +17,11 @@ class Rytir():
         #Rychlost kone
         rychlost = input("Zadej rychlost kone cval/klus/trysk: ")
         kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3],}
-        self.pos_s = input("Kam miris drevcem H,LR,PR,T: ")
+        self.pos_d = input("Kam miris drevcem H,LR,PR,T: ")
         #Vypocet utocneho cisla
-        self.uc = rd.randrange(1,typ_drevce [drevec.lower()] [1] + 1) + kun[rychlost] [1]
+        self.uc = rd.randrange(1,typ_drevce [drevec.lower()] [1] + 1) + kun[rychlost.lower()] [1]
         #Vypocet unavy
-        self.s = self.s + typ_drevce [drevec.lower()] [0] + kun[rychlost] [0] + self.unava 
+        self.s = self.s + typ_drevce [drevec.lower()] [0] + kun[rychlost.lower()] [0] + self.unava 
         
     def obrana(self):
         self.oc = self.oc + rd.randrange(0,7)
@@ -51,6 +51,8 @@ def stret(R1,R2):
     R2.utok()
     R2.obrana()
 
+    if R1.pos_s == R2.pos_d:
+        print(f"Rytíř {R1.jmeno} odrazil útok štítem")
     #Zasah R1    
     if R1.uc > R2.oc:
         R2.s = R2.s - R1.uc
@@ -67,7 +69,6 @@ R1 = vytvor_rytire()
 R2 = vytvor_rytire()
 
 stret(R1,R2)
-        
     
     
 
