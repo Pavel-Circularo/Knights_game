@@ -1,11 +1,13 @@
 import random as rd
 
 class Rytir():
-    def __init__(self,jmeno,uc,oc,s,unava):
+    def __init__(self,jmeno,uc,oc,s,pos_d,pos_s,unava):
         self.jmeno = jmeno
         self.uc = uc
         self.oc = oc
         self.s = s
+        self.pos_d = pos_d
+        self.pos_s = pos_s
         self.unava = unava
         
     def utok(self):
@@ -15,6 +17,7 @@ class Rytir():
         #Rychlost kone
         rychlost = input("Zadej rychlost kone cval/klus/trysk: ")
         kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3],}
+        self.pos_s = input("Kam miris drevcem H,LR,PR,T: ")
         #Vypocet utocneho cisla
         self.uc = rd.randrange(1,typ_drevce [drevec.lower()] [1] + 1) + kun[rychlost] [1]
         #Vypocet unavy
@@ -22,6 +25,7 @@ class Rytir():
         
     def obrana(self):
         self.oc = self.oc + rd.randrange(0,7)
+        self.pos_s = input("Pozice stitu H,LR,PR,T: ")
         
 
 def vytvor_rytire():
@@ -29,6 +33,8 @@ def vytvor_rytire():
     s = int(input("Vydrz: "))
     uc = 0
     oc = 0
+    pos_d =""
+    pos_s = ""
     
     zbroj = input("Zadej druh zbroje - zadna,kozena,krouzkova,platova: ")
     typ_zbroje = {"zadna":[0,0], "kozena":[-3,1], "krouzkova":[-5,3],"platova":[-7,4]}
@@ -36,7 +42,7 @@ def vytvor_rytire():
     unava = typ_zbroje[zbroj.lower()][0]
     oc = oc + typ_zbroje[zbroj.lower()][1]
     
-    return Rytir(jmeno,uc,oc,s,unava)
+    return Rytir(jmeno,uc,oc,s,pos_d,pos_s,unava)
 
 def stret(R1,R2):
     R1.utok()
@@ -44,6 +50,7 @@ def stret(R1,R2):
     
     R2.utok()
     R2.obrana()
+
     #Zasah R1    
     if R1.uc > R2.oc:
         R2.s = R2.s - R1.uc
@@ -53,6 +60,8 @@ def stret(R1,R2):
     #Remiza - R1.uc == R2.oc or R2.uc == R1.uc 
     else:
         pass
+    print(R1.uc,R1.oc,R1.s,R2.uc,R2.oc,R2.s)
+    
 
 R1 = vytvor_rytire()
 R2 = vytvor_rytire()
