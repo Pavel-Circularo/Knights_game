@@ -1,5 +1,5 @@
 class Rytir():
-    def __init__(self,jmeno,uc,oc,s,vaha):
+    def __init__(self,jmeno,uc,oc,s,unava):
         self.jmeno = jmeno
         self.uc = uc
         self.oc = oc
