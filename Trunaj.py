@@ -1,63 +1,63 @@
+import random as rd
+
 class Rytir():
     def __init__(self,jmeno,uc,oc,s,unava):
         self.jmeno = jmeno
         self.uc = uc
         self.oc = oc
         self.s = s
-        self.unava = unava #Unava bude kazde kolo snizovat vydrz
+        self.unava = unava
+        
+    def utok(self):
+        #Vyber drevce
+        drevec = input ("Zvol si drevec: ")
+        typ_drevce = {"lehky":[-5,4],"stredni":[-10,6],"tezky":[-15,10]}
+        #Rychlost kone
+        rychlost = input("Zadej rychlost kone cval/klus/trysk: ")
+        kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3],}
+        #Vypocet utocneho cisla
+        self.uc = rd.randrange(1,typ_drevce [drevec.lower()] [1] + 1) + kun[rychlost] [1]
+        #Vypocet unavy
+        self.s = self.s + typ_drevce [drevec.lower()] [0] + kun[rychlost] [0] + self.unava 
+        
+    def obrana(self):
+        self.oc = self.oc + rd.randrange(0,7)
+        
 
-   
 def vytvor_rytire():
     jmeno = input("Jmeno: ")
-    s = input("Vydrz: ")
+    s = int(input("Vydrz: "))
     uc = 0
     oc = 0
     
-    zbroj = input("Zadej druh zbroje - Zadna,Kozena,Krouzkova,Platova: ")
-    typ_zbroje = {"Zadna":[0,0], "Kozena":[-3,1], "Krouzkova":[-5,3],"Platova":[-7,4]}
+    zbroj = input("Zadej druh zbroje - zadna,kozena,krouzkova,platova: ")
+    typ_zbroje = {"zadna":[0,0], "kozena":[-3,1], "krouzkova":[-5,3],"platova":[-7,4]}
     
-    unava = typ_zbroje[zbroj][0]
-    oc = oc + typ_zbroje[zbroj][1]
+    unava = typ_zbroje[zbroj.lower()][0]
+    oc = oc + typ_zbroje[zbroj.lower()][1]
     
     return Rytir(jmeno,uc,oc,s,unava)
 
+def stret(R1,R2):
+    R1.utok()
+    R1.obrana()
+    
+    R2.utok()
+    R2.obrana()
+    #Zasah R1    
+    if R1.uc > R2.oc:
+        R2.s = R2.s - R1.uc
+    #Zasah R2    
+    elif R1.uc < R2.oc:
+        R1.s = R1.s - R1.uc
+    #Remiza - R1.uc == R2.oc or R2.uc == R1.uc 
+    else:
+        pass
 
-def parametry_kola():
-    rychlost = input("Zadej rychlost kone cval/klus/trysk: ")
-    kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3],}
-    
-    drevec = input ("Zvol si drevec: ")
-    typ_drevce = {"lehky":[-5,4],"stredni":[-10,6],"tezky":[-15,10]}
-    d_pos = input("Pozice drevce")
-    #Rozmyslet kam zaradit utok a obranu (metoda tridy nebo funkce)
-    
-    """
-    Pro oba rytíře:
-    Zvolit váhu dřevce
-    Zvolit rychlost koně
-    Zvolit pozici dřevce
-    Zvolit pozici štítu
-    """
-    
-def stret():
-    
-    """
-    Zkontrolovat pozice dřevce R1 a R2
-    Zkontrolovat pozici štítu R1 a R2
-    Porovnat obranné a útočné číslo R1 a R2
-    Zkontrolovat výdrže
-    Určit vítěze
-    """
-    
-def turnaj():
-    def vytvor_rytire():
-    p =#pocet kol
-    
-    for i in range(1,p+1):
-        def parametry_kola():
-        def stret():
-        
-        
+R1 = vytvor_rytire()
+R2 = vytvor_rytire()
+
+stret(R1,R2)
         
     
     
