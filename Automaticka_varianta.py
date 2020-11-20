@@ -64,8 +64,8 @@ def stret(R1,R2):
         print("Rytíři se střetli se stejnou silou")
 
     #Remiza - R1.uc == R2.oc or R2.uc == R1.uc, nebo oba rytiri utok odrazili 
-    print(f"Rytíř {R1.jmeno} Výdrž po {p}. kole: {R1.s}")
-    print(f"Rytíř {R2.jmeno} Výdrž po {p}. kole: {R2.s}")
+    print(f"Rytíř {R1.jmeno} vstupuje do následujícího {p}. kola s výdrží : {R1.s}")
+    print(f"Rytíř {R2.jmeno} vstupuje do následujícího {p}. kola s výdrží : {R2.s}")
 #Určení vítěze    
 def vitez(R1,R2):
     if R1.s > R2.s and R1.s > 0:
