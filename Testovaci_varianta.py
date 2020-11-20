@@ -21,7 +21,7 @@ class Rytir():
         #self.pos_d = input("Kam miris drevcem H,LR,PR,T: ")
         self.pos_d = "LR"
         #Vypocet utocneho cisla
-        self.uc = rd.randrange(1,(typ_drevce ["stredni"] [1]) + 1) + kun["klus"] [1]
+        self.uc = rd.randrange(1,typ_drevce ["stredni"] [1] + 1) + kun["klus"] [1]
         #Vypocet unavy
         self.s = self.s + typ_drevce ["stredni"] [0] + kun["klus"] [0] + self.unava 
         
@@ -29,7 +29,8 @@ class Rytir():
         self.oc = self.oc + rd.randrange(0,7)
         #self.pos_s = input("Pozice stitu H,LR,PR,T: ")
         self.pos_s = "H"
-  
+
+
 def stret(R1,R2):
     #Nastaveni utocnych a obrannych cisel
     R1.utok()
@@ -40,55 +41,48 @@ def stret(R1,R2):
     #Blokovani stitem
     R1_blok = 0
     R2_blok = 0
-    print(f"Utok R1: {R1.uc}" ,f"Obrana R1: {R1.oc}",f"Utok R2: {R2.uc}",f"Obrana R2: {R2.oc}")
-    
-
+ 
     if R1.pos_s == R2.pos_d:
-        print(f"Rytíř {R1.jmeno} odrazil útok štítem")
         R1_blok = 1
         
     if R2.pos_s == R1.pos_d:
-        print(f"Rytíř {R2.jmeno} odrazil útok štítem")
         R2_blok = 1
         
     #Zasah R1    
     if R1.uc > R2.oc and R2_blok == 0:
          R2.s = R2.s - R1.uc
-         print(f"Rytíř {R1.jmeno} překonal silou: {R1.uc}, obranu soupeře {R2.oc}.")
          
     #Zasah R2    
-    if R2.uc > R2.oc and R1_blok == 0:
+    if R2.uc > R1.oc and R1_blok == 0:
         R1.s = R1.s - R2.uc
-        print(f"Rytíř {R2.jmeno} překonal silou: {R2.uc}, obranu soupeře: {R1.oc}.")
-    #Remiza   
-    if R1.uc  >= R2.oc and R2.uc >= R1.uc or R1_blok == 1 and R2_blok == 1 :
-        print("Rytíři se střetli se stejnou silou")
-
+        
+    if ((R1.uc  <= R2.oc) and (R2.uc <= R1.uc)) or (R1_blok == 1 and R2_blok == 1):
+        pass
+    
 #Určení vítěze    
 def vitez(R1,R2):
+    global a,b,c
+    
     if R1.s > R2.s and R1.s > 0:
-        print(f"Zvítězil rytíř {R1.jmeno}")
-
+        #print(f"Zvítězil rytíř {R1.jmeno}")
+        a = a + 1 
         
     elif R2.s > R1.s and R2.s > 0:
-        print(f"Zvítězil rytíř {R2.jmeno}")
-
+        #print(f"Zvítězil rytíř {R2.jmeno}")
+        b = b + 1
         
     elif R1.s == R2.s or (R1.s and R2.s) <= 0:
-        print("Remíza")
-
+        #print("Remíza")
+        c = c + 1
 #Kontrola shození před koncem turnaje        
 def shozeni(R1,R2):
     if R1.s <= 0 and R2.s > 0:
-        print(f"Rytíř {R1.jmeno} je shozen ze sedla v {p}. kole")
         return True
     
     elif R2.s <= 0 and R1.s > 0:
-        print(f"Rytíř {R2.jmeno} je shozen ze sedla v {p}. kole")
         return True
         
     elif R2.s <= 0 and R1.s <= 0:
-        print(f"Oba rytíři jsou shozeni ze sedla v {p}. kole")
         return True
     
 #Hlavní program   
@@ -97,19 +91,29 @@ def turnaj():
     p = 0
     pocet_kol = 3
     #vytvor_rytire():
-    R1 = Rytir("Alistar",0,0,50,"","",0)
-    R2 = Rytir("Duncan",0,0,50,"","",0)
+    R1 = Rytir("Alistar",0,0,70,"","",0)
+    R2 = Rytir("Duncan",0,0,70,"","",0)
     
     while p < pocet_kol:
         p += 1
-        print(f"----------KOLO {p}----------")
         stret(R1,R2)
         
         if shozeni(R1,R2) == True:
             break
-    print(f"Rytíř {R1.jmeno} nastupuje do {p}. kola s výdrží: {R1.s}")
-    print(f"Rytíř {R2.jmeno} nastupuje do {p}. kola s výdrží: {R2.s}")
-    
+        
     vitez(R1,R2)
+    
+    
+def test():
+    global a,b,c
+    pocet_spusteni = 1000
+    
+    a = 0 #Vyhra R1
+    b = 0 #Vyhra R2
+    c = 0 #Remiza
 
-turnaj()
+    for i in range (0,pocet_spusteni+1):
+        turnaj()  
+    print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
+        
+test()
