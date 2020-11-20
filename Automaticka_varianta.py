@@ -13,11 +13,11 @@ class Rytir():
         
     def utok(self):
         #Vyber drevce
-        #drevec = input ("Zvol si drevec: ")-10
-        typ_drevce = {"lehky":[-5,4],"stredni":[0,6],"tezky":[-15,10]}
+        #drevec = input ("Zvol si drevec: ")
+        typ_drevce = {"lehky":[-5,4],"stredni":[-10,6],"tezky":[-15,10]}
         #Rychlost kone
-        #rychlost = input("Zadej rychlost kone cval/klus/trysk: ") -3
-        kun = {"cval":[0,0],"klus":[0,2],"trysk":[-5,3],}
+        #rychlost = input("Zadej rychlost kone cval/klus/trysk: ")
+        kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3],}
         #self.pos_d = input("Kam miris drevcem H,LR,PR,T: ")
         self.pos_d = "LR"
         #Vypocet utocneho cisla
@@ -40,7 +40,9 @@ def stret(R1,R2):
     #Blokovani stitem
     R1_blok = 0
     R2_blok = 0
-    #print(f"Utok R1: {R1.uc}" ,f"Obrana R1: {R1.oc}",f"Utok R2: {R2.uc}",f"Obrana R2: {R2.oc}")
+    print(f"Utok R1: {R1.uc}" ,f"Obrana R1: {R1.oc}",f"Utok R2: {R2.uc}",f"Obrana R2: {R2.oc}")
+    
+
     if R1.pos_s == R2.pos_d:
         print(f"Rytíř {R1.jmeno} odrazil útok štítem")
         R1_blok = 1
@@ -55,15 +57,13 @@ def stret(R1,R2):
          print(f"Rytíř {R1.jmeno} překonal silou: {R1.uc}, obranu soupeře {R2.oc}.")
          
     #Zasah R2    
-    if R2.uc > R2.oc and R1_blok == 0:
+    if R2.uc > R1.oc and R1_blok == 0:
         R1.s = R1.s - R2.uc
         print(f"Rytíř {R2.jmeno} překonal silou: {R2.uc}, obranu soupeře: {R1.oc}.")
-    else:
-        print("Rytíři se střetli se stejnou silou")
+        
+    if ((R1.uc  <= R2.oc) and (R2.uc <= R1.uc)) or (R1_blok == 1 and R2_blok == 1) :
+        print("Rytíři se střetli ubránili soupeři")
 
-    #Remiza - R1.uc == R2.oc or R2.uc == R1.uc, nebo oba rytiri utok odrazili 
-    print(f"Rytíř {R1.jmeno} vstupuje do následujícího {p}. kola s výdrží : {R1.s}")
-    print(f"Rytíř {R2.jmeno} vstupuje do následujícího {p}. kola s výdrží : {R2.s}")
 #Určení vítěze    
 def vitez(R1,R2):
     if R1.s > R2.s and R1.s > 0:
@@ -97,8 +97,8 @@ def turnaj():
     p = 0
     pocet_kol = 3
     #vytvor_rytire():
-    R1 = Rytir("Alistar",0,0,70,"","",0)
-    R2 = Rytir("Duncan",0,0,70,"","",0)
+    R1 = Rytir("Alistar",0,0,50,"","",0)
+    R2 = Rytir("Duncan",0,0,50,"","",0)
     
     while p < pocet_kol:
         p += 1
@@ -108,8 +108,13 @@ def turnaj():
         if shozeni(R1,R2) == True:
             break
         
+        if R1.s > 0 and R2.s > 0: 
+            print(f"Rytíř {R1.jmeno} nastupuje do {p}. kola s výdrží: {R1.s}")
+            print(f"Rytíř {R2.jmeno} nastupuje do {p}. kola s výdrží: {R2.s}")
+    
     vitez(R1,R2)
 
 turnaj()
+    
     
     
