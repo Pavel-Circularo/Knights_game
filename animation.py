@@ -17,13 +17,24 @@ ryt11 = r"C:\Users\pvesely\Coding\Knight_game\ryt11.gif"
 ryt22 = r"C:\Users\pvesely\Coding\Knight_game\ryt22.gif"
 ryt33 = r"C:\Users\pvesely\Coding\Knight_game\ryt33.gif"
 
+exploze = (r"C:\Users\pvesely\Coding\Knight_game\jinaexploze-0.gif")
+exploze1 = (r"C:\Users\pvesely\Coding\Knight_game\jinaexploze-1.gif")
+exploze2 = (r"C:\Users\pvesely\Coding\Knight_game\jinaexploze-2.gif")
+exploze3 = (r"C:\Users\pvesely\Coding\Knight_game\jinaexploze-3.gif")
+
 #registering pictures
 window.register_shape(ryt1)
 window.register_shape(ryt2)
 window.register_shape(ryt3)
+
 window.register_shape(ryt11)
 window.register_shape(ryt22)
 window.register_shape(ryt33)
+
+window.register_shape(exploze)
+window.register_shape(exploze1)
+window.register_shape(exploze2)
+window.register_shape(exploze3)
 
 class Rytir(tt.Turtle):
 
@@ -59,6 +70,8 @@ class Rytir2(tt.Turtle):
         # Set timer
         window.ontimer(self.animate, 60)
 
+vybuchy = [exploze, exploze1, exploze2, exploze3]
+
 rytir1 = Rytir()
 rytir1.setpos(800, 0)
 
@@ -68,10 +81,19 @@ rytir2.setpos(-800, 0)
 rytir1.animate()
 rytir2.animate()
 
-for i in range(133):
-    rytir1.forward(-5)
-    rytir2.forward(5)
+faceoff = False
+for i in range(69):
+    rytir1.forward(-10)
+    rytir2.forward(10)
+    if i == 68:
+        vybuch = tt.Turtle()
+        for i in vybuchy:
+            vybuch.shape(i)
+            time.sleep(0.1)
+        faceoff = True
 
 while True:
     window.update()
     print("main loop")
+    if faceoff == True:
+        break
