@@ -14,10 +14,10 @@ class Rytir():
     def utok(self):
         #Vyber drevce
         #drevec = input ("Zvol si drevec: ")
-        typ_drevce = {"lehky":[-5,4],"stredni":[-10,6],"tezky":[-15,10]}
+        typ_drevce = {"lehky":[-5,4],"stredni":[0,6],"tezky":[-15,10]}
         #Rychlost kone
         #rychlost = input("Zadej rychlost kone cval/klus/trysk: ")
-        kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3],}
+        kun = {"cval":[0,0],"klus":[0,2],"trysk":[-5,3],}
         #self.pos_d = input("Kam miris drevcem H,LR,PR,T: ")
         self.pos_d = "LR"
         #Vypocet utocneho cisla
@@ -34,9 +34,6 @@ class Rytir():
 def stret(R1,R2):
     R1.utok(), R1.obrana()
     R2.utok(), R2.obrana()
-    #Zasahy
-    Zasah_R1 = R2.s - R1.uc
-    Zasah_R2 = R1.s - R2.uc
     #Blokovani stitem
     R1_blok = 0
     R2_blok = 0
@@ -51,10 +48,10 @@ def stret(R1,R2):
         
     #Zasah R1    
     if R1.uc > R2.oc and R2_blok == 0:
-        R2.s = Zasah_R1
+        R2.s = R2.s - R1.uc
     #Zasah R2    
     elif R1.uc < R2.oc and R1_blok == 0:
-        R1.s = Zasah_R2
+        R1.s = R1.s - R2.uc
     #Remiza - R1.uc == R2.oc or R2.uc == R1.uc, nebo oba rytiri utok odrazili 
     else:
         pass
@@ -64,17 +61,18 @@ def stret(R1,R2):
 #Určení vítěze    
 def vitez(R1,R2):
     global a,b,c
+    
     if R1.s > R2.s and R1.s > 0:
         #print(f"Zvítězil rytíř {R1.jmeno}")
         a = a + 1 
         
     elif R2.s > R1.s and R2.s > 0:
         #print(f"Zvítězil rytíř {R2.jmeno}")
-        b = b+1
+        b = b + 1
         
     elif R1.s == R2.s or (R1.s and R2.s) <= 0:
         #print("Remíza")
-        c = c+1
+        c = c + 1
 #Kontrola shození před koncem turnaje        
 def shozeni(R1,R2):
     if R1.s <= 0 and R2.s > 0:
@@ -95,8 +93,8 @@ def turnaj():
     p = 0
     pocet_kol = 3
     #vytvor_rytire():
-    R1 = Rytir("Alistar",0,3,70,"","",-5)
-    R2 = Rytir("Duncan",0,3,70,"","",-5)
+    R1 = Rytir("Alistar",0,0,70,"","",0)
+    R2 = Rytir("Duncan",0,0,70,"","",0)
     
     while p < pocet_kol:
         p += 1
@@ -110,11 +108,13 @@ def turnaj():
     
 def test():
     global a,b,c
-    a = 0
-    b = 0
-    c = 0
+    pocet_spusteni = 100
+    
+    a = 0 #Vyhra R1
+    b = 0 #Vyhra R2
+    c = 0 #Remiza
 
-    for i in range (0,10):
+    for i in range (0,pocet_spusteni+1):
         turnaj()  
     print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
         
