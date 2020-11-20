@@ -60,7 +60,7 @@ def stret(R1,R2):
     if R2.uc > R2.oc and R1_blok == 0:
         R1.s = R1.s - R2.uc
         print(f"Rytíř {R2.jmeno} překonal silou: {R2.uc}, obranu soupeře: {R1.oc}.")
-        
+    #Remiza   
     if R1.uc  >= R2.oc and R2.uc >= R1.uc or R1_blok == 1 and R2_blok == 1 :
         print("Rytíři se střetli se stejnou silou")
 
