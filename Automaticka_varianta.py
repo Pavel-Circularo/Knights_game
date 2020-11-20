@@ -41,7 +41,7 @@ def stret(R1,R2):
     R1_blok = 0
     R2_blok = 0
     print(f"Utok R1: {R1.uc}" ,f"Obrana R1: {R1.oc}",f"Utok R2: {R2.uc}",f"Obrana R2: {R2.oc}")
-    
+    print(48*"-")
 
     if R1.pos_s == R2.pos_d:
         print(f"Rytíř {R1.jmeno} odrazil útok štítem")
@@ -102,7 +102,7 @@ def turnaj():
     
     while p < pocet_kol:
         p += 1
-        print(f"----------KOLO {p}----------")
+        print(20*"-"+f" KOLO {p} "+20*"-")
         stret(R1,R2)
         
         if shozeni(R1,R2) == True:
