@@ -13,12 +13,9 @@ class Rytir():
         
     def utok(self):
         #Vyber drevce
-        #drevec = input ("Zvol si drevec: ")
         typ_drevce = {"lehky":[-5,4],"stredni":[0,6],"tezky":[-15,10]}
         #Rychlost kone
-        #rychlost = input("Zadej rychlost kone cval/klus/trysk: ")
         kun = {"cval":[0,0],"klus":[0,2],"trysk":[-5,3],}
-        #self.pos_d = input("Kam miris drevcem H,LR,PR,T: ")
         self.pos_d = "LR"
         #Vypocet utocneho cisla
         self.uc = rd.randrange(1,typ_drevce ["stredni"] [1] + 1) + kun["klus"] [1]
@@ -27,7 +24,6 @@ class Rytir():
         
     def obrana(self):
         self.oc = self.oc + rd.randrange(0,7)
-        #self.pos_s = input("Pozice stitu H,LR,PR,T: ")
         self.pos_s = "H"
 
 
@@ -39,52 +35,41 @@ def stret(R1,R2):
     R2_blok = 0
 
     if R1.pos_s == R2.pos_d:
-        #print(f"Rytíř {R1.jmeno} odrazil útok štítem")
         R1_blok = 1
         
     if R2.pos_s == R1.pos_d:
-        #print(f"Rytíř {R2.jmeno} odrazil útok štítem")
         R2_blok = 1
         
     #Zasah R1    
     if R1.uc > R2.oc and R2_blok == 0:
         R2.s = R2.s - R1.uc
     #Zasah R2    
-    elif R1.uc < R2.oc and R1_blok == 0:
+    if R1.uc < R2.oc and R1_blok == 0:
         R1.s = R1.s - R2.uc
-    #Remiza - R1.uc == R2.oc or R2.uc == R1.uc, nebo oba rytiri utok odrazili 
+
     else:
         pass
-    #print(f"Rytíř {R1.jmeno} zaútočil silou: {R1.uc}. Výdrž po {p}. kole: {R1.s}")
-    #print(f"Rytíř {R2.jmeno} zaútočil silou: {R2.uc}. Výdrž po {p}. kole: {R2.s}")
-    
 #Určení vítěze    
 def vitez(R1,R2):
     global a,b,c
     
     if R1.s > R2.s and R1.s > 0:
-        #print(f"Zvítězil rytíř {R1.jmeno}")
         a = a + 1 
         
     elif R2.s > R1.s and R2.s > 0:
-        #print(f"Zvítězil rytíř {R2.jmeno}")
         b = b + 1
         
     elif R1.s == R2.s or (R1.s and R2.s) <= 0:
-        #print("Remíza")
         c = c + 1
 #Kontrola shození před koncem turnaje        
 def shozeni(R1,R2):
     if R1.s <= 0 and R2.s > 0:
-        #print(f"Rytíř {R1.jmeno} je shozen ze sedla v {p}. kole")
         return True
     
     elif R2.s <= 0 and R1.s > 0:
-        #print(f"Rytíř {R2.jmeno} je shozen ze sedla v {p}. kole")
         return True
         
     elif R2.s <= 0 and R1.s <= 0:
-        #print(f"Oba rytíři jsou shozeni ze sedla v {p}. kole")
         return True
     
 #Hlavní program   
