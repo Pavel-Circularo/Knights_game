@@ -34,10 +34,9 @@ def stret(R1,R2):
     #Nastaveni utocnych a obrannych cisel
     R1.utok()
     R1.obrana()
-    print(R1.s), print(R1.oc)
     R2.utok()
     R2.obrana()
-    print(R2.s), print(R1.oc)
+
     
 
     #Blokovani stitem
@@ -55,16 +54,19 @@ def stret(R1,R2):
     #Zasah R1    
     if R1.uc > R2.oc and R2_blok == 0:
          R2.s = R2.s - R1.uc
+         print(f"Rytíř {R1.jmeno} překonal silou: {R1.uc}, obranu soupeře {R2.oc}. Výdrž po {p}. kole: {R1.s}")
+         
     #Zasah R2    
-    elif R2.uc > R2.oc and R1_blok == 0:
+    if R2.uc > R2.oc and R1_blok == 0:
         R1.s = R1.s - R2.uc
+        print(f"Rytíř {R2.jmeno} překonal silou: {R2.uc}, obranu soupeře: {R1.oc}. Výdrž po {p}. kole: {R2.s}")
     else:
-        pass
+        print("Rytíři se střetli se stejnou silou")
+        print(f"Rytíř {R1.jmeno} výdrž {R1.s} po {p}. kole")
+        print(f"Rytíř {R2.jmeno} výdrž {R2.s} po {p}. kole")
     #Remiza - R1.uc == R2.oc or R2.uc == R1.uc, nebo oba rytiri utok odrazili 
 
-    print(f"Rytíř {R1.jmeno} zaútočil silou: {R1.uc}. Výdrž po {p}. kole: {R1.s}")
-    print(f"Rytíř {R2.jmeno} zaútočil silou: {R2.uc}. Výdrž po {p}. kole: {R2.s}")
-    
+
 #Určení vítěze    
 def vitez(R1,R2):
     if R1.s > R2.s and R1.s > 0:
@@ -103,6 +105,7 @@ def turnaj():
     
     while p < pocet_kol:
         p += 1
+        print(f"----------KOLO {p}----------")
         stret(R1,R2)
         
         if shozeni(R1,R2) == True:
