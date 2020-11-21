@@ -13,12 +13,9 @@ class Rytir():
         
     def utok(self):
         #Vyber drevce
-        #drevec = input ("Zvol si drevec: ")
         typ_drevce = {"lehky":[-5,4],"stredni":[-10,6],"tezky":[-15,10]}
         #Rychlost kone
-        #rychlost = input("Zadej rychlost kone cval/klus/trysk: ")
         kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3],}
-        #self.pos_d = input("Kam miris drevcem H,LR,PR,T: ")
         self.pos_d = "LR"
         #Vypocet utocneho cisla
         self.uc = rd.randrange(1,typ_drevce ["stredni"] [1] + 1) + kun["klus"] [1]
@@ -29,6 +26,19 @@ class Rytir():
         self.oc = self.oc + rd.randrange(0,7)
         #self.pos_s = input("Pozice stitu H,LR,PR,T: ")
         self.pos_s = "H"
+        
+class Rytir_A(Rytir):
+        
+    def utok(self):
+        #Vyber drevce
+        typ_drevce = {"lehky":[-5,4],"stredni":[-10,6],"tezky":[-15,10]}
+        #Rychlost kone
+        kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3],}
+        self.pos_d = "LR"
+        #Vypocet utocneho cisla
+        self.uc = rd.randrange(1,typ_drevce ["stredni"] [1] + 1) + kun["klus"] [1]
+        #Vypocet unavy
+        self.s = self.s + typ_drevce ["stredni"] [0] + kun["klus"] [0] + self.unava 
 
 
 def stret(R1,R2):
@@ -64,15 +74,12 @@ def vitez(R1,R2):
     global a,b,c
     
     if R1.s > R2.s and R1.s > 0:
-        #print(f"Zvítězil rytíř {R1.jmeno}")
         a = a + 1 
         
     elif R2.s > R1.s and R2.s > 0:
-        #print(f"Zvítězil rytíř {R2.jmeno}")
         b = b + 1
         
     elif R1.s == R2.s or (R1.s and R2.s) <= 0:
-        #print("Remíza")
         c = c + 1
 #Kontrola shození před koncem turnaje        
 def shozeni(R1,R2):
@@ -90,9 +97,8 @@ def turnaj():
     global p
     p = 0
     pocet_kol = 3
-    #vytvor_rytire():
     R1 = Rytir("Alistar",0,0,70,"","",0)
-    R2 = Rytir("Duncan",0,0,70,"","",0)
+    R2 = Rytir_A("Duncan",0,0,70,"","",0)
     
     while p < pocet_kol:
         p += 1
