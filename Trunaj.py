@@ -120,8 +120,8 @@ def turnaj():
             break
         
         if R1.s > 0 and R2.s > 0: 
-            print(f"Rytíř {R1.jmeno} nastupuje do {p}. kola s výdrží: {R1.s}")
-            print(f"Rytíř {R2.jmeno} nastupuje do {p}. kola s výdrží: {R2.s}")
+            print(f"Rytíř {R1.jmeno} nastupuje do {p+1}. kola s výdrží: {R1.s}")
+            print(f"Rytíř {R2.jmeno} nastupuje do {p+1}. kola s výdrží: {R2.s}")
     
     vitez(R1,R2)
 
