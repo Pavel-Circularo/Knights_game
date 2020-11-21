@@ -118,7 +118,7 @@ def test():
     b = 0 #Vyhra R2
     c = 0 #Remiza
 
-    for i in range (0,pocet_spusteni+1):
+    for i in range (0,pocet_spusteni):
         turnaj()  
     print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
         
