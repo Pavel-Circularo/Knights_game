@@ -221,8 +221,8 @@ def automaticky_turnaj():
     konec = False
     pocet_kol = 3
     
-    R1 = Rytir("Alistar",0,4,100,"l","h",0)
-    R2 = Rytir("Duncan",0,0,100,"r","t",0)
+    R1 = Rytir("Alistar",0,0,30,"l","h",0)
+    R2 = Rytir("Duncan",0,0,30,"r","t",0)
     
     while p < pocet_kol:
         p += 1
@@ -230,17 +230,27 @@ def automaticky_turnaj():
         R1_blok = 0
         R2_blok = 0
         
-        R1.utok(4,3,-1)
-        R2.utok(8,3,-2)
+        print(20*"-" + f" KOLO {p} " + 20*"-")
+        R1_blok = 0
+        R2_blok = 0
+        
+        R1.utok(7,3,0)
+        R2.utok(7,3,0)
         R1.obrana()
         R2.obrana()
         
         stret(R1,R2)
-        
+        print(f"R1 utok: {R1.uc}, R1 obrana: {R1.oc}, R1 vydrz {R1.s}")
+        print(f"R2 utok: {R2.uc}, R2.obrana: {R2.oc}, R2. vydrz {R2.s}")
+        print(20*"-")
         if shozeni(R1,R2) == True:
+            komentator(R1,R2)
             break
         
-    vitez(R1,R2)
+        komentator(R1, R2)
+        
+    konec = True
+    komentator(R1,R2)
 
 def test():
     global a,b,c
@@ -256,7 +266,7 @@ def test():
     print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
     
 
-test()
+automaticky_turnaj()
 
     
     
