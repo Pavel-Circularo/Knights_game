@@ -230,8 +230,8 @@ def automaticky_turnaj():
         R1_blok = 0
         R2_blok = 0
         
-        R1.utok(4,3)
-        R2.utok(8,3)
+        R1.utok(4,3,-1)
+        R2.utok(8,3,-2)
         R1.obrana()
         R2.obrana()
         
@@ -256,7 +256,7 @@ def test():
     print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
     
 
-turnaj()  
+test()
 
     
     
