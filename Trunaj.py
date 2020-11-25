@@ -183,7 +183,6 @@ def turnaj():
         # Nastaveni utoku a obrany R1
         parametry_utoku  = priprava_utoku()
         R1.utok(parametry_utoku[0] , parametry_utoku[1] , parametry_utoku [2])
-        print(R1.s)
         R1.priprava_pozic()
         R1.obrana()
         
@@ -216,13 +215,14 @@ def vitez(R1,R2):
         c = c + 1
         
 def automaticky_turnaj():
-    global p, pocet_kol, konec, R1_blok, R2_blok
+    global p, pocet_kol, konec, R1_blok, R2_blok,a,b,c,d,e,f
     p = 0
     konec = False
     pocet_kol = 3
     
-    R1 = Rytir("Alistar",0,0,30,"l","h",0)
-    R2 = Rytir("Duncan",0,0,30,"r","t",0)
+    # Ri (Jmeno, + utocne cislo,  + obranne cislo,  + vydrz, pozice drevce, pozice stitu,  - unava_zbroj)
+    R1 = Rytir("Alistar",0,0,100,"l","h",0)
+    R2 = Rytir("Duncan",0,0,100,"r","t",0)
     
     while p < pocet_kol:
         p += 1
@@ -230,43 +230,51 @@ def automaticky_turnaj():
         R1_blok = 0
         R2_blok = 0
         
-        print(20*"-" + f" KOLO {p} " + 20*"-")
+        #print(20*"-" + f" KOLO {p} " + 20*"-")
         R1_blok = 0
         R2_blok = 0
         
-        R1.utok(7,3,0)
-        R2.utok(7,3,0)
+        # Ri(+ kostka utoku, + rychlost, -unava)
+        R1.utok(10,0,0)
+        R2.utok(10,0,0)
         R1.obrana()
         R2.obrana()
         
         stret(R1,R2)
-        print(f"R1 utok: {R1.uc}, R1 obrana: {R1.oc}, R1 vydrz {R1.s}")
-        print(f"R2 utok: {R2.uc}, R2.obrana: {R2.oc}, R2. vydrz {R2.s}")
-        print(20*"-")
-        if shozeni(R1,R2) == True:
-            komentator(R1,R2)
+        #print(f"R1 utok: {R1.uc}, R1 obrana: {R1.oc}, R1 vydrz {R1.s}")
+        #print(f"R2 utok: {R2.uc}, R2.obrana: {R2.oc}, R2. vydrz {R2.s}")
+        if R1.s <= 0 and R2.s > 0:
+            d = d + 1
             break
-        
-        komentator(R1, R2)
-        
-    konec = True
-    komentator(R1,R2)
+    
+        elif R2.s <= 0 and R1.s > 0:
+            e = e + 1
+            break
+            
+        elif R2.s <= 0 and R1.s <= 0:
+            f = f + 1
+            break
+
+    vitez(R1,R2)
 
 def test():
-    global a,b,c
+    global a,b,c,d,e,f 
     pocet_spusteni = 10000
     
-    a = 0 #Vyhra R1
-    b = 0 #Vyhra R2
-    c = 0 #Remiza
+    a = 0 # Vyhra R1
+    b = 0 # Vyhra R2
+    c = 0 # Remiza
+    d = 0 # Počet shození R1
+    e = 0 # Počet shození R2
+    f = 0 # Počet shození oba
+
     
     for i in range (0,pocet_spusteni):
         automaticky_turnaj()
         
     print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
+    print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
     
-
-automaticky_turnaj()
 
     
     
