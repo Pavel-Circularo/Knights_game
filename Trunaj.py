@@ -178,7 +178,7 @@ def turnaj_MP():
     R2 = Rytir("Duncan",0,0,50,"r","t",-2)
     
     if easter_egg(R1,R2) == True:
-        print ("Soupeř se vzdal")
+        print ("Soupeř se vzdal. Mintaka zvítězil")
         return
             
    
