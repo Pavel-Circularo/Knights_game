@@ -123,9 +123,9 @@ def shozeni(R1,R2):
     elif R2.s <= 0 and R1.s <= 0:
         return True
 
-def komentator(R1,R2):
+def komentator(R1,R2,stav):
     # Vyhlaseni viteze
-    if konec == True:
+    if stav == "konec":
         if R1.s > R2.s and R1.s > 0:
             print(f"Zvítězil rytíř {R1.jmeno}")
             
@@ -134,8 +134,8 @@ def komentator(R1,R2):
     
         elif R1.s == R2.s or (R1.s and R2.s) <= 0:
             print("Remíza")
-    else:
-        # Prubeh turnaje
+            
+    elif stav == "probiha":
         if R1.pos_s == R2.pos_d:
             print(f"Rytíř {R1.jmeno} odrazil útok štítem")
         if R2.pos_s == R1.pos_d:
@@ -146,32 +146,41 @@ def komentator(R1,R2):
             print(f"Rytíř {R2.jmeno} překonal silou: {R2.uc}, obranu soupeře: {R1.oc}.")
         if ((R1.uc  <= R2.oc) and (R2.uc <= R1.uc)) or (R1_blok == 1 and R2_blok == 1):
             print("Rytíři se ubránili soupeři")
-         
-        if shozeni(R1,R2) == True:
-            if R1.s <= 0 and R2.s > 0:
-                print(f"Rytíř {R1.jmeno} je shozen ze sedla v {p}. kole")
             
-            elif R2.s <= 0 and R1.s > 0:
-                print(f"Rytíř {R2.jmeno} je shozen ze sedla v {p}. kole")
-                
-            elif R2.s <= 0 and R1.s <= 0:
-                print(f"Oba rytíři jsou shozeni ze sedla v {p}. kole")
-                
-        if R1.s > 0 and R2.s > 0 and p < pocet_kol: 
-            print(f"Rytíř {R1.jmeno} nastupuje do {p+1}. kola s výdrží: {R1.s}")
-            print(f"Rytíř {R2.jmeno} nastupuje do {p+1}. kola s výdrží: {R2.s}")       
+        print(f"Rytíř {R1.jmeno} nastupuje do {p}. kola s výdrží: {R1.s}")
+        print(f"Rytíř {R2.jmeno} nastupuje do {p}. kola s výdrží: {R2.s}")  
+         
+    elif stav == "shozen":
+        if R1.s <= 0 and R2.s > 0:
+            print(f"Rytíř {R1.jmeno} je shozen ze sedla v {p}. kole")
         
-    
-# Hlavní program   
-def turnaj():
+        elif R2.s <= 0 and R1.s > 0:
+            print(f"Rytíř {R2.jmeno} je shozen ze sedla v {p}. kole")
+            
+        elif R2.s <= 0 and R1.s <= 0:
+            print(f"Oba rytíři jsou shozeni ze sedla v {p}. kole")
+
+def easter_egg(R1,R2):
+    if R1.jmeno.lower() == "mintaka" or R2.jmeno.lower() == "mintaka":
+        return True
+                    
+
+# Multiplayer
+def turnaj_MP():
     global p, pocet_kol, konec, R1_blok, R2_blok
     p = 0
-    konec = False
     pocet_kol = 3
     
-    R1 = Rytir("Alistar",0,0,100,"l","h",0)
-    R2 = Rytir("Duncan",0,0,100,"r","t",0)
+    # R1 = vytvor_rytire()
+    # R2 = vytvor_rytire()
     
+    R1 = Rytir("Alistar",0,0,50,"l","h",-1)
+    R2 = Rytir("Duncan",0,0,50,"r","t",-2)
+    
+    if easter_egg(R1,R2) == True:
+        print ("Soupeř se vzdal")
+        return
+            
    
     while p < pocet_kol:
         p += 1
@@ -195,12 +204,47 @@ def turnaj():
         stret(R1,R2)
         
         if shozeni(R1,R2) == True:
-            komentator(R1,R2)
+            komentator(R1,R2,stav = "shozen")
             break
-        komentator(R1, R2)
+        komentator(R1, R2, stav = "probiha")
         
-    konec = True
-    komentator(R1,R2)
+    komentator(R1,R2, stav = "konec")
+    
+# Singleplayer
+def turnaj_SP():
+    global p, pocet_kol, konec, R1_blok, R2_blok
+    p = 0
+    pocet_kol = 3
+    
+    R1 = vytvor_rytire()
+    parametry_utoku  = priprava_utoku()
+    R1.utok(parametry_utoku[0] , parametry_utoku[1] , parametry_utoku [2])
+    
+    R2 = vytvor_rytire()
+    parametry_utoku  = priprava_utoku()
+    R2.utok(parametry_utoku[0] , parametry_utoku[1] , parametry_utoku [2])
+    
+   
+    while p < pocet_kol:
+        p += 1
+
+        R1_blok = 0
+        R2_blok = 0
+        
+        R1.priprava_pozic()
+        R1.obrana()
+        
+        R2.priprava_pozic()
+        R2.obrana()
+
+        stret(R1,R2)
+        
+        if shozeni(R1,R2) == True:
+            komentator(R1,R2,stav = "shozen")
+            break
+        komentator(R1, R2, stav = "probiha")
+        
+    komentator(R1,R2, stav = "konec")
     
 ### Testovani
 def vitez(R1,R2):
@@ -217,12 +261,11 @@ def vitez(R1,R2):
 def automaticky_turnaj():
     global p, pocet_kol, konec, R1_blok, R2_blok,a,b,c,d,e,f
     p = 0
-    konec = False
     pocet_kol = 3
     
     # Ri (Jmeno, + utocne cislo,  + obranne cislo,  + vydrz, pozice drevce, pozice stitu,  - unava_zbroj)
-    R1 = Rytir("Alistar",0,0,100,"l","h",0)
-    R2 = Rytir("Duncan",0,0,100,"r","t",0)
+    R1 = Rytir("Alistar",0,0,50,"l","h",0)
+    R2 = Rytir("Duncan",0,0,50,"r","t",0)
     
     while p < pocet_kol:
         p += 1
@@ -241,8 +284,7 @@ def automaticky_turnaj():
         R2.obrana()
         
         stret(R1,R2)
-        #print(f"R1 utok: {R1.uc}, R1 obrana: {R1.oc}, R1 vydrz {R1.s}")
-        #print(f"R2 utok: {R2.uc}, R2.obrana: {R2.oc}, R2. vydrz {R2.s}")
+        
         if R1.s <= 0 and R2.s > 0:
             d = d + 1
             break
@@ -274,12 +316,9 @@ def test():
         
     print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
     print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
-    
 
-    
-    
 
-        
+test()
     
     
 
