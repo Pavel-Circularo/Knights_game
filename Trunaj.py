@@ -30,7 +30,6 @@ class Rytir():
                 self.pos_s = pozice_stitu
                 break
 
-       
     def utok(self,kostka_uc,rychlost_uc,utok_unava):
         # Vypocet utocneho cisla
         self.uc = rd.randrange(1,kostka_uc + 1) + rychlost_uc
@@ -43,7 +42,7 @@ class Rytir():
         
 def vytvor_rytire():
     jmeno = input("Jmeno: ")
-    s = 100
+    s = 50
     uc = 0
     oc = 0
     pos_d =""
@@ -78,7 +77,7 @@ def priprava_utoku():
             kostka_uc = typ_drevce [drevec] [1]
             uc_unava = uc_unava + typ_drevce [drevec] [0]
             break
-    # Vyber ryhlosti       
+    # Vyber rychlosti       
     while True:
         rychlost = (input("Zadej rychlost kone cval/klus/trysk: ")).lower()
         if rychlost not in kun.keys():
@@ -108,7 +107,7 @@ def stret(R1,R2):
     # Zasah R2    
     if R2.uc > R1.oc and R1_blok == 0:
         R1.s = R1.s - R2.uc
-        
+     # Remiza   
     if ((R1.uc  <= R2.oc) and (R2.uc <= R1.uc)) or (R1_blok == 1 and R2_blok == 1):
         pass
         
@@ -171,17 +170,13 @@ def turnaj_MP():
     p = 0
     pocet_kol = 3
     
-    # R1 = vytvor_rytire()
-    # R2 = vytvor_rytire()
-    
-    R1 = Rytir("Alistar",0,0,50,"l","h",-1)
-    R2 = Rytir("Duncan",0,0,50,"r","t",-2)
-    
+    R1 = vytvor_rytire()
+    R2 = vytvor_rytire()
+   
     if easter_egg(R1,R2) == True:
         print ("Soupeř se vzdal. Mintaka zvítězil")
         return
             
-   
     while p < pocet_kol:
         p += 1
 
@@ -224,7 +219,6 @@ def turnaj_SP():
     parametry_utoku  = priprava_utoku()
     R2.utok(parametry_utoku[0] , parametry_utoku[1] , parametry_utoku [2])
     
-   
     while p < pocet_kol:
         p += 1
 
