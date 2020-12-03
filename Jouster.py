@@ -1,6 +1,7 @@
 import random as rd
 from vyber import postava
-from test_okna import okno
+from GUIstart import okno
+from animation_final import utkani
 
 seznam_vybaveni = okno()
 
@@ -33,7 +34,7 @@ class Rytir():
             else:
                 self.pos_s = pozice_stitu
                 break"""
-        # Sem prijde funkce ptro graficky vyber
+        # Sem prijde funkce pro graficky vyber
         pozice_drevce = postava()
         pozice_stitu = postava()
 
@@ -49,7 +50,7 @@ class Rytir():
         self.oc = self.oc + rd.randrange(0,7)
         
 def vytvor_rytire():
-    jmeno = input("Jmeno: ")
+    jmeno = seznam_vybaveni[3] #input("Jmeno: ")
     s = 100
     uc = 0
     oc = 0
@@ -125,6 +126,7 @@ def shozeni(R1,R2):
         return True
 
 def komentator(R1,R2):
+    utkani()
     # Vyhlaseni viteze
     if konec == True:
         if R1.s > R2.s and R1.s > 0:
@@ -277,10 +279,4 @@ def test():
     print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
 
 turnaj()
-    
-
-        
-    
-    
-
     
