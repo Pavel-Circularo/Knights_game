@@ -126,7 +126,6 @@ def shozeni(R1,R2):
         return True
 
 def komentator(R1,R2):
-    utkani()
     # Vyhlaseni viteze
     if konec == True:
         if R1.s > R2.s and R1.s > 0:
