@@ -6,11 +6,6 @@ from tkinter import messagebox
 
 # noinspection SpellCheckingInspection
 def okno():
-    # this is a function to get the user input from the text input box
-    def getInputBoxValue():
-        userInput = pepa.get()
-        return userInput
-
     def pravidla():
         messagebox.showinfo("Pravidla",
                             """Cíl hry je sesadit rytíře ze sedla nebo mít na konci 3 kol více výdrže než on. Na začátku si vybereš vybevení, které určí tvé statistiky. 
@@ -18,59 +13,50 @@ def okno():
 Poté si vybereš na jakou část těla chceš zaútočit drřevcem a kterou si budeš chránit štítem. Choose wisely!""")
 
     def hotovo():
-        result = messagebox.askquestion("Opravdu?", "Jsi spokojen se svým výběrěm?")
+        result = messagebox.askquestion("Opravdu?", "Jsi spokojen se svým výběrěm? Pokud jsi nezadal jméno budeš se jmenovat Kamil!")
         if result == "yes":
+            seznam_vyberu[3] = jmeno.get()
             root.destroy()
 
-    #def nasadit():
-     #   lbl["text"] = 5
-
-    seznam_vyberu = ["kozena", "lehky", "klus", "kamil"]
+    seznam_vyberu = ["kozena", "lehky", "klus", "Kamil"]
 
     def vyzbroj(arg):
-        vydrz = 0
-        uc = 0
-        uc2 = 0
-        oc = 0
         if arg == 1:
-            messagebox.showinfo("button 1", "Vybráno kožené brnění!")
+            messagebox.showinfo("Brnění", "Vybráno kožené brnění!")
             seznam_vyberu[0] = "kozena"
+            lbl_brneni["text"] = "Kožená"
         elif arg == 2:
-            messagebox.showinfo("button 2", "Vybráno kroužkové brnění!")
+            messagebox.showinfo("Brnění", "Vybráno kroužkové brnění!")
             seznam_vyberu[0] = "krouzkova"
+            lbl_brneni["text"] = "Kroužková"
         elif arg == 3:
-            messagebox.showinfo("button 3", "Vybráno plátěné brnění!")
+            messagebox.showinfo("Brnění", "Vybráno plátěné brnění!")
             seznam_vyberu[0] = "platova"
+            lbl_brneni["text"] = "Plátová"
         elif arg == 4:
-            messagebox.showinfo("button 4", "Vybrán lehký dřevec!")
+            messagebox.showinfo("Dřevec", "Vybrán lehký dřevec!")
             seznam_vyberu[1] = "lehky"
-            uc += 5
-            lbl["text"] = uc
+            lbl_drevec["text"] = "Lehký"
         elif arg == 5:
-            messagebox.showinfo("button 5", "Vybrán střední dřevec!")
+            messagebox.showinfo("Dřevec", "Vybrán střední dřevec!")
             seznam_vyberu[1] = "stredni"
-            uc += 10
-            lbl["text"] = uc
+            lbl_drevec["text"] = "Střední"
         elif arg == 6:
-            messagebox.showinfo("button 6", "Vybrán těžký dřevec!")
+            messagebox.showinfo("Dřevec", "Vybrán těžký dřevec!")
             seznam_vyberu[1] = "tezky"
-            uc += 15
-            lbl["text"] = uc
+            lbl_drevec["text"] = "Těžký"
         elif arg == 7:
-            messagebox.showinfo("button 7", "Vybrán klus!")
+            messagebox.showinfo("Kůň", "Vybrán klus!")
             seznam_vyberu[2] = "klus"
-            uc2 += (uc + 2)
-            lbl["text"] = uc2
+            lbl_kun["text"] = "Klus"
         elif arg == 8:
-            messagebox.showinfo("button 8", "Vybrán cval!")
+            messagebox.showinfo("Kůň", "Vybrán cval!")
             seznam_vyberu[2] = "cval"
-            uc2 += (uc + 4)
-            lbl["text"] = uc2
+            lbl_kun["text"] = "Cval"
         elif arg == 9:
-            messagebox.showinfo("button 9", "Vybrán trysk!")
+            messagebox.showinfo("Kůň", "Vybrán trysk!")
             seznam_vyberu[2] = "trysk"
-            uc2 += (uc + 6)
-            lbl["text"] = uc2
+            lbl_kun["text"] = "Trysk"
 
     root = Tk()
 
@@ -80,7 +66,7 @@ Poté si vybereš na jakou část těla chceš zaútočit drřevcem a kterou si 
     root.title('Vítej!')
 
     # This is the section of code which creates the a label
-    Label(root, text='Vítej v "Jou(k)ster"', bg='#C1CDCD', font=('courier', 20, 'bold')).place(x=293, y=10)
+    Label(root, text='Vítej v "Jouster"', bg='#C1CDCD', font=('courier', 20, 'bold')).place(x=293, y=10)
     # This is the section of code which creates the a label
     Label(root, text='Nejdřív si přecti', bg='#C1CDCD', font=('courier', 10, 'bold')).place(x=304, y=51)
 
@@ -125,32 +111,32 @@ Poté si vybereš na jakou část těla chceš zaútočit drřevcem a kterou si 
     Button(root, text='trysk', bg='#838B8B', font=('courier', 10, 'bold'), command=lambda: vyzbroj(9)).place(x=580,y=430)
 
     # This is the section of code which creates the label
-    Label(root, text='Tvoje statistiky:', bg='#C1CDCD', font=('courier', 20, 'bold')).place(x=293, y=500)
+    Label(root, text='Tvůj výběr:', bg='#C1CDCD', font=('courier', 20, 'bold')).place(x=330, y=500)
 
-    vydrz = 100
     # This is the section of code which creates the label
-    Label(root, text='Výdrž:', bg='#C1CDCD', font=('courier', 10, 'bold')).place(x=350, y=540)
-    Label(root, text=vydrz).place(x=420, y=540)
+    Label(root, text='Brnění:', bg='#C1CDCD', font=('courier', 10, 'bold')).place(x=350, y=540)
+    lbl_brneni = Label(root, text="", bg='#C1CDCD')
+    lbl_brneni.place(x=420, y=540)
 
     # This is the section of code which creates the label for offense number
-    Label(root, text='Útočné číslo:', bg='#C1CDCD', font=('courier', 10, 'bold')).place(x=294, y=560)
-    lbl = Label(root, text= 0)
-    lbl.place(x=420, y=560)
+    Label(root, text='Dřevec:', bg='#C1CDCD', font=('courier', 10, 'bold')).place(x=350, y=560)
+    lbl_drevec = Label(root, text= "",bg='#C1CDCD')
+    lbl_drevec.place(x=420, y=560)
 
-    oc = 0
     # This is the section of code which creates the label defense number
-    Label(root, text='Obranné číslo:', bg='#C1CDCD', font=('courier', 10, 'bold')).place(x=286, y=580)
-    lbl2 = Label(root, text=oc)
-    lbl2.place(x=420, y=580)
+    Label(root, text='Rychlost koně:', bg='#C1CDCD', font=('courier', 10, 'bold')).place(x=294, y=580)
+    lbl_kun = Label(root, text="", bg='#C1CDCD')
+    lbl_kun.place(x=420, y=580)
 
     # This is the section of code which creates the label for text
     Label(root, text='Jak se jmenuje tvůj rytíř?', bg='#C1CDCD', font=('courier', 15, 'bold')).place(x=150, y=610)
     Button(root, text='Výběr hotov!', bg='#838B8B', font=('courier', 10, 'bold'), command=hotovo).place(x=360, y=650)
 
-    def vytiskni():
+    """def vytiskni():
         seznam_vyberu[3] = jmeno.get()
-        print(seznam_vyberu[3])
-    Button(root, text = "test", command = vytiskni).place(x=500, y=650)
+        print(seznam_vyberu[3])"""
+    #Button(root, text = "test", command = vytiskni).place(x=500, y=650)
+
     # This is the section of code which creates a text input box
     jmeno = StringVar()
     pepa = Entry(root, text = jmeno)
