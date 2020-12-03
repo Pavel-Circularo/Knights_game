@@ -21,26 +21,27 @@ def postava():
     o_leva_ruka = PhotoImage(master=bottomframe, file= r"C:\Users\pvesely\Coding\Knight_game\leva_ruka.gif")
     o_prava_ruka = PhotoImage(master=bottomframe, file= r"C:\Users\pvesely\Coding\Knight_game\prava_ruka.gif")
 
+    miridlo = ["H"]
+
     def h_vyber():
         result = messagebox.askquestion("Select", "Chceš vybrat hlavu?",)
         if result == "yes":
             window.destroy()
-            return "H"
     def lr_vyber():
         result = messagebox.askquestion("Select", "Chceš vybrat levou ruku?",)
         if result == "yes":
             window.destroy()
-            return "L"
+            miridlo[0] = "L"
     def pr_vyber():
         result = messagebox.askquestion("Select", "Chceš vybrat pravou ruku?",)
         if result == "yes":
             window.destroy()
-            return "P"
+            miridlo[0] = "P"
     def t_vyber():
         result = messagebox.askquestion("Select", "Chceš vybrat torso?",)
         if result == "yes":
             window.destroy()
-            return "T"
+            miridlo[0] = "T"
 
     hlava = tk.Button(master= frame, image = o_hlava, cursor= "X_cursor", command = h_vyber)
     hlava.grid(row= 0, column = 1, sticky = "s")
@@ -55,3 +56,4 @@ def postava():
     torso.grid(row=1, column=1, sticky="nsew")
 
     window.mainloop()
+    return miridlo[0]
