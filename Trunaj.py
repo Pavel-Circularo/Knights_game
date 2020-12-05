@@ -42,7 +42,7 @@ class Rytir():
         self.oc = self.oc + rd.randrange(0,7)
         
 def vytvor_rytire(typ_hrace):
-    s = 50
+    s = 40
     uc = 0
     oc = 0
     pos_d =""
