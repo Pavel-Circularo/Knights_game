@@ -41,56 +41,93 @@ class Rytir():
         # Vypocet obrany
         self.oc = self.oc + rd.randrange(0,7)
         
-def vytvor_rytire():
-    jmeno = input("Jmeno: ")
-    s = 100
+class Figurant (Rytir):
+    
+    def utok(self,kostka_uc,rychlost_uc,utok_unava):
+        # Vypocet utocneho cisla
+        self.uc = round(kostka_uc/2) +1 + rychlost_uc
+        # Vypocet unavy
+        self.s = self.s + self.unava + utok_unava
+
+    def obrana(self):
+        # Vypocet obrany
+        self.oc = self.oc + 4
+    
+    
+        
+def vytvor_rytire(typ_hrace):
+    s = 40
     uc = 0
     oc = 0
     pos_d =""
     pos_s = ""
-    typ_zbroje = {"zadna":[0,0], "kozena":[-3,1], "krouzkova":[-5,3],"platova":[-7,4]}
+    typ_zbroje = {"zadna":[0,0], "kozena":[-1,5], "krouzkova":[-2,8],"platova":[-3,11]}
     
-    while True:
-        zbroj = (input("Zadej druh zbroje - zadna,kozena,krouzkova,platova: ")).lower()
-        if zbroj not in typ_zbroje.keys():
-            print("Špatne zadana zbroj")
-            continue
-        else:
-            unava = typ_zbroje[zbroj][0]
-            oc = oc + typ_zbroje[zbroj][1]
-            break
+    if typ_hrace == "hrac":
+        jmeno = input("Jmeno: ")
+        while True:
+            zbroj = (input("Zadej druh zbroje - zadna,kozena,krouzkova,platova: ")).lower()
+            if zbroj not in typ_zbroje.keys():
+                print("Špatne zadana zbroj")
+                continue
+            else:
+                unava = typ_zbroje[zbroj][0]
+                oc = oc + typ_zbroje[zbroj][1]
+                break
+        
+        return Rytir(jmeno,uc,oc,s,pos_d,pos_s,unava)
     
-    return Rytir(jmeno,uc,oc,s,pos_d,pos_s,unava)
+    elif typ_hrace == "pocitac":
+        jmeno = "Rytir"
+        zbroj = rd.choice(("zadna","kozena","krouzkova","platova"))
+        unava = typ_zbroje[zbroj][0]
+        oc = oc + typ_zbroje[zbroj][1]
+    
+        return Rytir(jmeno,uc,oc,s,pos_d,pos_s,unava)
 
-def priprava_utoku():
+def priprava_utoku(typ_hrace):
     # Parametry vybavení
     uc_unava = 0
     rychlost_unava = 0
-    typ_drevce = {"lehky":[-5,4],"stredni":[-10,6],"tezky":[-15,10]}
-    kun = {"cval":[0,0],"klus":[-3,2],"trysk":[-5,3]}
-    # Vyber drevce
-    while True:
-        drevec = (input ("Zvol si drevec lehky/stredni/tezky: ")).lower()
-        if drevec not in typ_drevce.keys():
-            print("Spatne zadany drevec")
-            continue
-        else:
+    typ_drevce = {"lehky":[0,5],"stredni":[-1,8],"tezky":[-2,15]}
+    kun = {"cval":[0,0],"klus":[-1,3],"trysk":[-3,7]}
+    
+    if typ_hrace == "hrac":
+        # Vyber drevce
+        while True:
+            drevec = (input ("Zvol si drevec lehky/stredni/tezky: ")).lower()
+            if drevec not in typ_drevce.keys():
+                print("Spatne zadany drevec")
+                continue
+            else:
+                kostka_uc = typ_drevce [drevec] [1]
+                uc_unava = uc_unava + typ_drevce [drevec] [0]
+                break
+        # Vyber ryhlosti       
+        while True:
+            rychlost = (input("Zadej rychlost kone cval/klus/trysk: ")).lower()
+            if rychlost not in kun.keys():
+                print("Spatne zadana rychlost")
+                continue
+            else:
+                rychlost_uc = kun [rychlost] [1]
+                rychlost_unava =  rychlost_unava + kun [rychlost] [0]
+                break
+        utok_unava = rychlost_unava + uc_unava
+            
+        return kostka_uc , rychlost_uc , utok_unava
+    
+    elif typ_hrace == "pocitac":
+            drevec = rd.choice(("lehky","stredni","tezky"))
             kostka_uc = typ_drevce [drevec] [1]
             uc_unava = uc_unava + typ_drevce [drevec] [0]
-            break
-    # Vyber ryhlosti       
-    while True:
-        rychlost = (input("Zadej rychlost kone cval/klus/trysk: ")).lower()
-        if rychlost not in kun.keys():
-            print("Spatne zadana rychlost")
-            continue
-        else:
+            # Vyber ryhlosti       
+            rychlost = rd.choice(("cval","klus","trysk"))
             rychlost_uc = kun [rychlost] [1]
             rychlost_unava =  rychlost_unava + kun [rychlost] [0]
-            break
-    utok_unava = rychlost_unava + uc_unava
-        
-    return kostka_uc , rychlost_uc , utok_unava
+            utok_unava = rychlost_unava + uc_unava
+            
+            return kostka_uc , rychlost_uc , utok_unava
     
   
 def stret(R1,R2):
@@ -123,9 +160,9 @@ def shozeni(R1,R2):
     elif R2.s <= 0 and R1.s <= 0:
         return True
 
-def komentator(R1,R2):
+def komentator(R1,R2,stav):
     # Vyhlaseni viteze
-    if konec == True:
+    if stav == "konec":
         if R1.s > R2.s and R1.s > 0:
             print(f"Zvítězil rytíř {R1.jmeno}")
             
@@ -134,8 +171,8 @@ def komentator(R1,R2):
     
         elif R1.s == R2.s or (R1.s and R2.s) <= 0:
             print("Remíza")
-    else:
-        # Prubeh turnaje
+            
+    elif stav == "probiha":
         if R1.pos_s == R2.pos_d:
             print(f"Rytíř {R1.jmeno} odrazil útok štítem")
         if R2.pos_s == R1.pos_d:
@@ -146,33 +183,38 @@ def komentator(R1,R2):
             print(f"Rytíř {R2.jmeno} překonal silou: {R2.uc}, obranu soupeře: {R1.oc}.")
         if ((R1.uc  <= R2.oc) and (R2.uc <= R1.uc)) or (R1_blok == 1 and R2_blok == 1):
             print("Rytíři se ubránili soupeři")
-         
-        if shozeni(R1,R2) == True:
-            if R1.s <= 0 and R2.s > 0:
-                print(f"Rytíř {R1.jmeno} je shozen ze sedla v {p}. kole")
             
-            elif R2.s <= 0 and R1.s > 0:
-                print(f"Rytíř {R2.jmeno} je shozen ze sedla v {p}. kole")
-                
-            elif R2.s <= 0 and R1.s <= 0:
-                print(f"Oba rytíři jsou shozeni ze sedla v {p}. kole")
-                
-        if R1.s > 0 and R2.s > 0 and p < pocet_kol: 
-            print(f"Rytíř {R1.jmeno} nastupuje do {p+1}. kola s výdrží: {R1.s}")
-            print(f"Rytíř {R2.jmeno} nastupuje do {p+1}. kola s výdrží: {R2.s}")       
+        print(f"Rytíř {R1.jmeno} nastupuje do {p}. kola s výdrží: {R1.s}")
+        print(f"Rytíř {R2.jmeno} nastupuje do {p}. kola s výdrží: {R2.s}")  
+         
+    elif stav == "shozen":
+        if R1.s <= 0 and R2.s > 0:
+            print(f"Rytíř {R1.jmeno} je shozen ze sedla v {p}. kole")
         
-    
-# Hlavní program   
-def turnaj():
-    global p, pocet_kol, konec, R1_blok, R2_blok
+        elif R2.s <= 0 and R1.s > 0:
+            print(f"Rytíř {R2.jmeno} je shozen ze sedla v {p}. kole")
+            
+        elif R2.s <= 0 and R1.s <= 0:
+            print(f"Oba rytíři jsou shozeni ze sedla v {p}. kole")
+            
+def easter_egg(R1,R2):
+    if R1.jmeno.lower() == "mintaka" or R2.jmeno.lower() == "mintaka":
+        return True
+                    
+
+# Multiplayer
+def turnaj_MP():
+    global p, pocet_kol,R1_blok, R2_blok
     p = 0
-    konec = False
     pocet_kol = 3
     
-    R1 = Rytir("Alistar",0,0,100,"l","h",0)
-    R2 = Rytir("Duncan",0,0,100,"r","t",0)
-    
+    R1 = vytvor_rytire(typ_hrace = "hrac")
+    R2 = vytvor_rytire(typ_hrace = "hrac")
    
+    if easter_egg(R1,R2) == True:
+        print ("Soupeř se vzdal. Zvítezil Mintaka")
+        return
+            
     while p < pocet_kol:
         p += 1
 
@@ -181,13 +223,13 @@ def turnaj():
         R2_blok = 0
         
         # Nastaveni utoku a obrany R1
-        parametry_utoku  = priprava_utoku()
+        parametry_utoku  = priprava_utoku(typ_hrace = "hrac")
         R1.utok(parametry_utoku[0] , parametry_utoku[1] , parametry_utoku [2])
         R1.priprava_pozic()
         R1.obrana()
         
         # Nastaveni utoku a obrany R2
-        parametry_utoku  = priprava_utoku()
+        parametry_utoku  = priprava_utoku(typ_hrace = "hrac")
         R2.utok(parametry_utoku[0] , parametry_utoku[1] , parametry_utoku [2])
         R2.priprava_pozic()
         R2.obrana()
@@ -195,12 +237,50 @@ def turnaj():
         stret(R1,R2)
         
         if shozeni(R1,R2) == True:
-            komentator(R1,R2)
+            komentator(R1,R2,stav = "shozen")
             break
-        komentator(R1, R2)
+        komentator(R1, R2, stav = "probiha")
         
-    konec = True
-    komentator(R1,R2)
+    komentator(R1,R2, stav = "konec")
+    
+# Singleplayer
+def turnaj_SP():
+    global p, pocet_kol,R1_blok, R2_blok
+    p = 0
+    pocet_kol = 3
+    
+    # Tvorba rytire uzivatelem
+    R1 = vytvor_rytire(typ_hrace = "hrac")
+    parametry_utoku  = priprava_utoku(typ_hrace = "hrac")
+    R1.utok(parametry_utoku[0] , parametry_utoku[1] , parametry_utoku [2])
+    
+   
+    # Automaticky vytvoreny rytir
+    R2 = vytvor_rytire(typ_hrace = "pocitac")
+    parametry_utoku  = priprava_utoku(typ_hrace = "pocitac")
+    R2.utok(parametry_utoku[0] , parametry_utoku[1] , parametry_utoku [2])
+    
+    while p < pocet_kol:
+        p += 1
+
+        R1_blok = 0
+        R2_blok = 0
+        
+        R1.priprava_pozic()
+        R1.obrana()
+        
+        R2.pos_s = rd.choice(("l","p","t","h"))
+        R2.pos_d = rd.choice(("l","p","t","h"))
+        R2.obrana()
+
+        stret(R1,R2)
+        
+        if shozeni(R1,R2) == True:
+            komentator(R1,R2,stav = "shozen")
+            break
+        komentator(R1, R2, stav = "probiha")
+        
+    komentator(R1,R2, stav = "konec")
     
 ### Testovani
 def vitez(R1,R2):
@@ -215,55 +295,75 @@ def vitez(R1,R2):
         c = c + 1
         
 def automaticky_turnaj():
-    global p, pocet_kol, konec, R1_blok, R2_blok,a,b,c,d,e,f
-    p = 0
-    konec = False
-    pocet_kol = 3
+    global R1_blok, R2_blok,a,b,c,d,e,f
     
     # Ri (Jmeno, + utocne cislo,  + obranne cislo,  + vydrz, pozice drevce, pozice stitu,  - unava_zbroj)
+    # typ_zbroje = {"zadna":[0,0], "kozena":[-1,5], "krouzkova":[-2,8],"platova":[-3,11]}
+    # typ_drevce = {"lehky":[0,5],"stredni":[-1,8],"tezky":[-2,15]}
+    # kun = {"cval":[0,0],"klus":[-1,3],"trysk":[-3,7]}
+
+    R1 = Rytir("Alistar", 0, 0, 40,"l","h", 0)
+    R2 = Rytir("Duncan", 0 , 0, 40,"r","t", 0)
     
-    with open ("Rt.csv", mode = "a", encoding = "utf-8") as data:
-        # Vytvoreni R1
-        unava_nahodna = rd.randint(0,25)
-        zbroj_nahodna = rd.randint(0,25)
-        R1 = Rytir("Alistar",0,zbroj_nahodna,50,"l","h",unava_nahodna)
-        print("A",zbroj_nahodna, unava_nahodna, file = data)
+    
+    for i in range(3):
+       
+        R1_blok = 0
+        R2_blok = 0
         
-        # Vytvoreni R2
-        unava_nahodna = rd.randint(0,25)
-        zbroj_nahodna = rd.randint(0,25)
-        R2 = Rytir("Duncan",0,zbroj_nahodna,50,"r","t",0)
-        print("B",zbroj_nahodna, unava_nahodna, file  = data)
+        #print(20*"-" + f" KOLO {p} " + 20*"-")
+        R1_blok = 0
+        R2_blok = 0
+        
+        # Ri(+ kostka utoku, + rychlost, -unava)
+        R1.utok(15, 0, 0)
+        R2.utok(5, 0, 0)
+        R1.obrana()
+        R2.obrana()
+        
+        stret(R1,R2)
+        
+        if R1.s <= 0 and R2.s > 0:
+            d = d + 1
+            break
     
-        while p < pocet_kol:
-            p += 1
+        elif R2.s <= 0 and R1.s > 0:
+            e = e + 1
+            break
             
+        elif R2.s <= 0 and R1.s <= 0:
+            f = f + 1
+            break
+
+    vitez(R1,R2)
+    
+    
+def testovaci_turnaj():
+    global R1_blok, R2_blok,a,b,c,d,e,f
+    
+    parametry_z, parametry_d, parametry_k = generator()
+    
+    # Ri (Jmeno, + utocne cislo,  + obranne cislo,  + vydrz, pozice drevce, pozice stitu,  - unava_zbroj)
+    # typ_zbroje = {"zadna":[0,0], "kozena":[-1,5], "krouzkova":[-2,8],"platova":[-3,11]}
+    # typ_drevce = {"lehky":[0,5],"stredni":[-1,8],"tezky":[-2,15]}
+    # kun = {"cval":[0,0],"klus":[-1,3],"trysk":[-3,7]}
+
+    for i in range(36):
+        R1 = Figurant("Alistar", parametry_z [i] [1], 0, 40,"l","l", parametry_z [i] [0])
+        R2 = Figurant("Duncan", 0 , 0, 40,"p","p", 0)
+        
+        for j in range(3):
+           
             R1_blok = 0
             R2_blok = 0
             
-            # Ri(+ kostka utoku, + rychlost, -unava)
-            
-            # Nastavni parametru R1
-            kostka_nahodna = rd.randint(1,25)
-            rychlost_nahodna = rd.randint(1,25)
-            vydrz_nahodna = rd.randint(-25,0)
-            R1.utok(kostka_nahodna,rychlost_nahodna,vydrz_nahodna)
-            print ("C",kostka_nahodna,rychlost_nahodna, vydrz_nahodna, file = data )
-            
-            # Nastaveni parametru R2
-            kostka_nahodna = rd.randint(1,25)
-            rychlost_nahodna = rd.randint(1,25)
-            vydrz_nahodna = rd.randint(-25,0)
-            R2.utok(kostka_nahodna,rychlost_nahodna,vydrz_nahodna)
-            print("D",kostka_nahodna, rychlost_nahodna,vydrz_nahodna, file  = data)
-            
+            R1.utok(parametry_d [i] [1], parametry_k [i] [1], parametry_d[i] [0] + parametry_k [i] [0])
+            R2.utok(5, 0, 0)
             R1.obrana()
-            print("E",R1.oc, file  = data)
             R2.obrana()
-            print("F",R2.oc, file = data)
             
             stret(R1,R2)
-
+            
             if R1.s <= 0 and R2.s > 0:
                 d = d + 1
                 break
@@ -278,8 +378,9 @@ def automaticky_turnaj():
     
         vitez(R1,R2)
         
-        print(a, b, c, file = data)
-        print(d, e, file = data)
+    print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
+    print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
+
 
 def test():
     global a,b,c,d,e,f 
@@ -292,7 +393,38 @@ def test():
     e = 0 # Počet shození R2
     f = 0 # Počet shození oba
 
+    
     for i in range (0,pocet_spusteni):
-        automaticky_turnaj()
+        testovaci_turnaj()
+        
+    R1_u = 100*a/pocet_spusteni
+    R2_u = 100* b/pocet_spusteni
+        
+    # print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
+    # print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
+    # print(43*"-")
+    # print(f"Uspesnost R1: {R1_u} % uspesnost R2: {R2_u} %")
+    # print(round(R1_u - R2_u,2))
+    
+    
+def generator():
+    
+    typ_zbroje = {"zadna":[0,0], "kozena":[-1,5], "krouzkova":[-2,8],"platova":[-3,11]}
+    typ_drevce = {"lehky":[0,5],"stredni":[-1,8],"tezky":[-2,15]}
+    kun = {"cval":[0,0],"klus":[-1,3],"trysk":[-3,7]}
+    
+    parametry_z = []
+    parametry_d = []
+    parametry_k = []
+   
+    for i in typ_zbroje.values():
+        for j in typ_drevce.values():
+            for k in kun.values():
+                parametry_z.append(i)
+                parametry_d.append(j)
+                parametry_k.append(k)
+     
+    return parametry_z, parametry_d, parametry_k
+
 
 test()
