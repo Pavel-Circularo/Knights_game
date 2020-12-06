@@ -212,7 +212,7 @@ def turnaj_MP():
     R2 = vytvor_rytire(typ_hrace = "hrac")
    
     if easter_egg(R1,R2) == True:
-        print ("Soupeř se vzdal. Zvítezil Mintaka")
+        print ("Soupeř se vzdal.")
         return
             
     while p < pocet_kol:
@@ -298,12 +298,12 @@ def automaticky_turnaj():
     global R1_blok, R2_blok,a,b,c,d,e,f
     
     # Ri (Jmeno, + utocne cislo,  + obranne cislo,  + vydrz, pozice drevce, pozice stitu,  - unava_zbroj)
-    # typ_zbroje = {"zadna":[0,0], "kozena":[-1,5], "krouzkova":[-2,8],"platova":[-3,11]}
+    # typ_zbroje = {"zadna":[0,0], "kozena":[-1,5], "krouzkova":[-2,8],"platova":[-5,11]}
     # typ_drevce = {"lehky":[0,5],"stredni":[-1,8],"tezky":[-2,15]}
-    # kun = {"cval":[0,0],"klus":[-1,3],"trysk":[-3,7]}
+    # kun = {"cval":[0,0],"klus":[-1,3],"trysk":[-3,5]}
 
-    R1 = Rytir("Alistar", 0, 0, 40,"l","h", 0)
-    R2 = Rytir("Duncan", 0 , 0, 40,"r","t", 0)
+    R1 = Rytir("Alistar", 0, 8, 40,"l","h", -2)
+    R2 = Rytir("Duncan", 0 , 11, 40,"r","t", -5)
     
     
     for i in range(3):
@@ -316,8 +316,8 @@ def automaticky_turnaj():
         R2_blok = 0
         
         # Ri(+ kostka utoku, + rychlost, -unava)
-        R1.utok(15, 0, 0)
-        R2.utok(5, 0, 0)
+        R1.utok(5, 0, 0)
+        R2.utok(15, 5, -5)
         R1.obrana()
         R2.obrana()
         
@@ -393,7 +393,7 @@ def testovaci_turnaj():
  
 def test():
     global a,b,c,d,e,f 
-    pocet_spusteni = 1
+    pocet_spusteni = 10000
     
     a = 0 # Vyhra R1
     b = 0 # Vyhra R2
@@ -404,16 +404,16 @@ def test():
 
     
     for i in range (0,pocet_spusteni):
-        testovaci_turnaj()
+        # testovaci_turnaj()
+        automaticky_turnaj()        
+    R1_u = 100*a/pocet_spusteni
+    R2_u = 100* b/pocet_spusteni
         
-    # R1_u = 100*a/pocet_spusteni
-    # R2_u = 100* b/pocet_spusteni
-        
-    # print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
-    # print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
-    # print(43*"-")
-    # print(f"Uspesnost R1: {R1_u} % uspesnost R2: {R2_u} %")
-    # print(round(R1_u - R2_u,2))
+    print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
+    print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
+    print(43*"-")
+    print(f"Uspesnost R1: {R1_u} % uspesnost R2: {R2_u} %")
+    print(round(R1_u - R2_u,2))
     
     
 def generator():
