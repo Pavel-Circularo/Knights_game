@@ -64,7 +64,7 @@ def vytvor_rytire(typ_hrace):
         return Rytir(jmeno,uc,oc,s,pos_d,pos_s,unava)
     
     elif typ_hrace == "pocitac":
-        jmeno = "Rytir"
+        jmeno = "Lancelot"
         zbroj = rd.choice(("zadna","kozena","krouzkova","platova"))
         unava = typ_zbroje[zbroj][0]
         oc = oc + typ_zbroje[zbroj][1]
@@ -198,7 +198,7 @@ def turnaj_MP():
     R2 = vytvor_rytire(typ_hrace = "hrac")
    
     if easter_egg(R1,R2) == True:
-        print ("Soupeř se vzdal.")
+        print ("Soupeř se vzdal. Mintaka zvítězil")
         return
             
     while p < pocet_kol:
