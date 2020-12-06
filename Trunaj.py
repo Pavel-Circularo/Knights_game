@@ -40,7 +40,7 @@ class Rytir():
     def obrana(self):
         # Vypocet obrany
         self.oc = self.oc + rd.randrange(0,7)
-        
+
 def vytvor_rytire(typ_hrace):
     s = 40
     uc = 0
@@ -190,7 +190,7 @@ def easter_egg(R1,R2):
 
 # Multiplayer
 def turnaj_MP():
-    global p, pocet_kol, konec, R1_blok, R2_blok
+    global p, pocet_kol,R1_blok, R2_blok
     p = 0
     pocet_kol = 3
     
@@ -198,7 +198,7 @@ def turnaj_MP():
     R2 = vytvor_rytire(typ_hrace = "hrac")
    
     if easter_egg(R1,R2) == True:
-        print ("Soupeř se vzdal. Zvítezil Mintaka")
+        print ("Soupeř se vzdal.")
         return
             
     while p < pocet_kol:
@@ -231,7 +231,7 @@ def turnaj_MP():
     
 # Singleplayer
 def turnaj_SP():
-    global p, pocet_kol, konec, R1_blok, R2_blok
+    global p, pocet_kol,R1_blok, R2_blok
     p = 0
     pocet_kol = 3
     
@@ -269,7 +269,3 @@ def turnaj_SP():
     komentator(R1,R2, stav = "konec")
 
 
-turnaj_SP()
-    
-
-    
