@@ -342,46 +342,55 @@ def testovaci_turnaj():
     global R1_blok, R2_blok,a,b,c,d,e,f
     
     parametry_z, parametry_d, parametry_k = generator()
-    
-    # Ri (Jmeno, + utocne cislo,  + obranne cislo,  + vydrz, pozice drevce, pozice stitu,  - unava_zbroj)
-    # typ_zbroje = {"zadna":[0,0], "kozena":[-1,5], "krouzkova":[-2,8],"platova":[-3,11]}
-    # typ_drevce = {"lehky":[0,5],"stredni":[-1,8],"tezky":[-2,15]}
-    # kun = {"cval":[0,0],"klus":[-1,3],"trysk":[-3,7]}
-
     for i in range(36):
-        R1 = Figurant("Alistar", parametry_z [i] [1], 0, 40,"l","l", parametry_z [i] [0])
-        R2 = Figurant("Duncan", 0 , 0, 40,"p","p", 0)
-        
-        for j in range(3):
-           
-            R1_blok = 0
-            R2_blok = 0
+        for k in range (36):
+            R1 = Figurant("Alistar", 0, parametry_z [i] [1], 40,"l","l", parametry_z [i] [0])
+            R2 = Figurant("Duncan", 0 , parametry_z [k] [1], 40,"p","p", parametry_z [k] [0])
             
-            R1.utok(parametry_d [i] [1], parametry_k [i] [1], parametry_d[i] [0] + parametry_k [i] [0])
-            R2.utok(5, 0, 0)
-            R1.obrana()
-            R2.obrana()
+            a = 0 # Vyhra R1
+            b = 0 # Vyhra R2
+            c = 0 # Remiza
+            d = 0 # Počet shození R1
+            e = 0 # Počet shození R2
+            f = 0 # Počet shození oba
             
-            stret(R1,R2)
-            
-            if R1.s <= 0 and R2.s > 0:
-                d = d + 1
-                break
-        
-            elif R2.s <= 0 and R1.s > 0:
-                e = e + 1
-                break
+            for j in range(3):
+               
+                R1_blok = 0
+                R2_blok = 0
                 
-            elif R2.s <= 0 and R1.s <= 0:
-                f = f + 1
-                break
-    
-        vitez(R1,R2)
-        
-    print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
-    print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
+                R1.utok(parametry_d [i] [1], parametry_k [i] [1], parametry_d[i] [0] + parametry_k [i] [0])
+                R2.utok(parametry_d [k] [1], parametry_k [k] [1], parametry_d[k] [0] + parametry_k [k] [0])
+                R1.obrana()
+                R2.obrana()
+                
+                stret(R1,R2)
+                
+                if R1.s <= 0 and R2.s > 0:
+                    d = d + 1
+                    break
+            
+                elif R2.s <= 0 and R1.s > 0:
+                    e = e + 1
+                    break
+                    
+                elif R2.s <= 0 and R1.s <= 0:
+                    f = f + 1
+                    break
 
+            vitez(R1,R2)
+            with open ("Rt.csv",mode = "a", encoding="utf-8") as data:
+                        
+              print(a, b, c ,d ,e,f,
+                    parametry_z [i] [1],  parametry_z [i] [0], 
+                    parametry_d [i] [1],  parametry_k [i] [1] , parametry_d[i] [0], parametry_k [i] [0],
+                    parametry_z [k] [1],  parametry_z [k] [0], 
+                    parametry_d [k] [1],  parametry_k [k] [1] , parametry_d[k] [0], parametry_k [k] [0],
+                    sep = ";", file = data) 
 
+            # print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
+            # print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
+ 
 def test():
     global a,b,c,d,e,f 
     pocet_spusteni = 1
@@ -397,8 +406,8 @@ def test():
     for i in range (0,pocet_spusteni):
         testovaci_turnaj()
         
-    R1_u = 100*a/pocet_spusteni
-    R2_u = 100* b/pocet_spusteni
+    # R1_u = 100*a/pocet_spusteni
+    # R2_u = 100* b/pocet_spusteni
         
     # print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
     # print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
@@ -426,5 +435,6 @@ def generator():
      
     return parametry_z, parametry_d, parametry_k
 
+    # def statistika(parametry_z, parametry_d, parametry_k,a,b,c,d):
 
 test()
