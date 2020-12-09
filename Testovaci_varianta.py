@@ -284,10 +284,10 @@ def turnaj_SP():
     
 ### Testovani
 def vitez(R1,R2):
-    global a,b,c
+    global a,b,c,R1_v
     if R1.s > R2.s and R1.s > 0:
         a = a + 1
-        
+        R1_v = R1_v + 1
     elif R2.s > R1.s and R2.s > 0:
         b = b + 1
 
@@ -339,89 +339,62 @@ def automaticky_turnaj():
     
     
 def testovaci_turnaj():
-    global R1_blok, R2_blok,a,b,c,d,e,f
+    global R1_blok, R2_blok,R1_v, a,b,c,d,e,f,Vybrana_zbroj, Vybrany_drevec, Vybrany_kun
+    stat = []
+    index_h = 36
     
-    parametry_z, parametry_d, parametry_k = generator()
-    for i in range(36):
-        for k in range (36):
-            R1 = Figurant("Alistar", 0, parametry_z [i] [1], 40,"l","l", parametry_z [i] [0])
-            R2 = Figurant("Duncan", 0 , parametry_z [k] [1], 40,"p","p", parametry_z [k] [0])
-            
-            a = 0 # Vyhra R1
-            b = 0 # Vyhra R2
-            c = 0 # Remiza
-            d = 0 # Počet shození R1
-            e = 0 # Počet shození R2
-            f = 0 # Počet shození oba
-            
-            for j in range(3):
-               
-                R1_blok = 0
-                R2_blok = 0
+    while index_h > 35:
+        parametry_z, parametry_d, parametry_k = generator()
+        for i in range(36):
+            R1_v = 0
+            for k in range (36):
+                R1 = Figurant("Alistar", 0, parametry_z [i] [1], 40,"l","l", parametry_z [i] [0])
+                R2 = Figurant("Duncan", 0 , parametry_z [k] [1], 40,"p","p", parametry_z [k] [0])
                 
-                R1.utok(parametry_d [i] [1], parametry_k [i] [1], parametry_d[i] [0] + parametry_k [i] [0])
-                R2.utok(parametry_d [k] [1], parametry_k [k] [1], parametry_d[k] [0] + parametry_k [k] [0])
-                R1.obrana()
-                R2.obrana()
+                a = 0 # Vyhra R1
+                b = 0 # Vyhra R2
+                c = 0 # Remiza
+                d = 0 # Počet shození R1
+                e = 0 # Počet shození R2
+                f = 0 # Počet shození oba
                 
-                stret(R1,R2)
-                
-                if R1.s <= 0 and R2.s > 0:
-                    d = d + 1
-                    break
-            
-                elif R2.s <= 0 and R1.s > 0:
-                    e = e + 1
-                    break
+                for j in range(3):
+                   
+                    R1_blok = 0
+                    R2_blok = 0
                     
-                elif R2.s <= 0 and R1.s <= 0:
-                    f = f + 1
-                    break
-
-            vitez(R1,R2)
-            with open ("Rt.csv",mode = "a", encoding="utf-8") as data:
+                    R1.utok(parametry_d [i] [1], parametry_k [i] [1], parametry_d[i] [0] + parametry_k [i] [0])
+                    R2.utok(parametry_d [k] [1], parametry_k [k] [1], parametry_d[k] [0] + parametry_k [k] [0])
+                    R1.obrana()
+                    R2.obrana()
+                    
+                    stret(R1,R2)
+                    
+                    if R1.s <= 0 and R2.s > 0:
+                        # d = d + 1
+                        break
+                
+                    elif R2.s <= 0 and R1.s > 0:
+                        # e = e + 1
+                        break
                         
-              print(a, b, c ,d ,e,f,
-                    parametry_z [i] [1],  parametry_z [i] [0], 
-                    parametry_d [i] [1],  parametry_k [i] [1] , parametry_d[i] [0], parametry_k [i] [0],
-                    parametry_z [k] [1],  parametry_z [k] [0], 
-                    parametry_d [k] [1],  parametry_k [k] [1] , parametry_d[k] [0], parametry_k [k] [0],
-                    sep = ";", file = data) 
-
-            # print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
-            # print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
- 
-def test():
-    global a,b,c,d,e,f 
-    pocet_spusteni = 10000
+                    elif R2.s <= 0 and R1.s <= 0:
+                        # f = f + 1
+                        break
     
-    a = 0 # Vyhra R1
-    b = 0 # Vyhra R2
-    c = 0 # Remiza
-    d = 0 # Počet shození R1
-    e = 0 # Počet shození R2
-    f = 0 # Počet shození oba
-
-    
-    for i in range (0,pocet_spusteni):
-        # testovaci_turnaj()
-        automaticky_turnaj()        
-    R1_u = 100*a/pocet_spusteni
-    R2_u = 100* b/pocet_spusteni
+                vitez(R1,R2)
+                stat.append([i,R1_v])
+                
+        index = max(stat)
+        index_h = index[0]
         
-    print(f"Počet výher R1: {a}, počet výher R2: {b}, počet remíz: {c}")
-    print(f"Počet shození R1: {d}, počet shození R2 {e}, počet shození oba {f}")
-    print(43*"-")
-    print(f"Uspesnost R1: {R1_u} % uspesnost R2: {R2_u} %")
-    print(round(R1_u - R2_u,2))
+        Vybrana_zbroj = Zbroj
+        Vybrany_drevec = Drevec
+        Vybrany_kun = Kun
     
     
 def generator():
-    
-    typ_zbroje = {"zadna":[0,0], "kozena":[-1,5], "krouzkova":[-2,8],"platova":[-3,11]}
-    typ_drevce = {"lehky":[0,5],"stredni":[-1,8],"tezky":[-2,15]}
-    kun = {"cval":[0,0],"klus":[-1,3],"trysk":[-3,7]}
-    
+    typ_zbroje, typ_drevce, kun  = generator_vybaveni()
     parametry_z = []
     parametry_d = []
     parametry_k = []
@@ -436,5 +409,12 @@ def generator():
     return parametry_z, parametry_d, parametry_k
 
     # def statistika(parametry_z, parametry_d, parametry_k,a,b,c,d):
-
-test()
+        
+def generator_vybaveni():
+    global Zbroj, Drevec, Kun
+    Zbroj = {"zadna":[0,0], "kozena":[-1*(rd.randint(0, 15)),rd.randint(0, 20)], "krouzkova":[-1*(rd.randint(0, 15)),rd.randint(0, 20)],"platova":[-1*(rd.randint(0, 15)),rd.randint(0, 20)]}
+    Drevec = {"lehky":[0,rd.randint(0, 20)],"stredni":[-1*(rd.randint(0, 15)),rd.randint(0, 20)],"tezky":[-1*(rd.randint(0, 10)),rd.randint(0, 20)]}
+    Kun = {"cval":[0,0],"klus":[-1*(rd.randint(0, 15)),rd.randint(0, 20)],"trysk":[-1*(rd.randint(0, 15)),rd.randint(0, 20)]}
+    
+    return Zbroj,Drevec,Kun
+testovaci_turnaj()
