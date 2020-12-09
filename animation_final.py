@@ -1,17 +1,18 @@
-
-import turtle as tt
+import importlib
 import time
-from turtle import TurtleScreen
+import turtle as tt
+import sys
 
 def utkani():
-
-    #create window to play animation in
+    importlib.reload(tt) # reload libraries in order to work in main program
+    # create window to play animation in
     window = tt.Screen()
     window.title("Střet rytířů")
     window.setup(width=1900, height=300)
     window.bgcolor("#bebebe")
+    window.reset()
 
-    #variables for picture location
+    # variables for pictures
     ryt1 = r"C:\Users\pvesely\Coding\Knight_game\rytir1.gif"
     ryt2 = r"C:\Users\pvesely\Coding\Knight_game\rytir2.gif"
     ryt3 = r"C:\Users\pvesely\Coding\Knight_game\rytir3.gif"
@@ -39,6 +40,7 @@ def utkani():
     window.register_shape(exploze2)
     window.register_shape(exploze3)
 
+    # classes for knights, two because of mirrored images 
     class Rytir(tt.Turtle):
 
         def __init__(self):
@@ -47,14 +49,18 @@ def utkani():
             self.shape(ryt1)
             self.frame = 0
             self.frames = [ryt1, ryt2, ryt3]
+            self.casovac = 0
 
+        # the animation function
         def animate(self):
+            print("duc duc")
             self.frame += 1
             if self.frame >= len(self.frames):
                 self.frame = 0
             self.shape(self.frames[self.frame])
-            # Set timer
-            window.ontimer(self.animate, 60)
+            self.casovac += 1
+            if self.casovac < 32:
+                window.ontimer(self.animate, 60)
 
     class Rytir2(tt.Turtle):
 
@@ -64,43 +70,41 @@ def utkani():
             self.shape(ryt11)
             self.frame = 0
             self.frames = [ryt11, ryt22, ryt33]
+            self.casovac = 0
 
         def animate(self):
             self.frame += 1
             if self.frame >= len(self.frames):
                 self.frame = 0
             self.shape(self.frames[self.frame])
-            # Set timer
-            window.ontimer(self.animate, 60)
+            self.casovac += 1
+            if self.casovac < 32:
+                window.ontimer(self.animate, 60)
 
     vybuchy = [exploze, exploze1, exploze2, exploze3]
 
+    # move knights apart
     rytir1 = Rytir()
     rytir1.setpos(800, 0)
 
     rytir2 = Rytir2()
     rytir2.setpos(-800, 0)
 
+    faceoff = False
+
+    # knights running
     rytir1.animate()
     rytir2.animate()
 
-    faceoff = False
+    #knights coming towards each other
     for i in range(69):
         rytir1.forward(-10)
         rytir2.forward(10)
-        if i == 68:
+        if i == 68:  # when the knights are close -> explosion
             vybuch = tt.Turtle()
             for i in vybuchy:
                 vybuch.shape(i)
                 time.sleep(0.1)
             faceoff = True
 
-    while True:
-        window.update()
-        if faceoff == True:
-            window.TurtleScreen._RUNNING = False
-            break
-    print("tu se to podělalo?")
-    return window.bye() #obalit to exceptu
-
-utkani()
+    window.bye() # close window
