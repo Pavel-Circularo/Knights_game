@@ -340,11 +340,11 @@ def automaticky_turnaj():
     
 def testovaci_turnaj():
     global R1_blok, R2_blok,R1_v, a,b,c,d,e,f,Vybrana_zbroj, Vybrany_drevec, Vybrany_kun
-    stat = []
     index_h = 36
     
-    while index_h > 35:
+    while index_h > 25:
         parametry_z, parametry_d, parametry_k = generator()
+        stat = []
         for i in range(36):
             R1_v = 0
             for k in range (36):
@@ -371,6 +371,7 @@ def testovaci_turnaj():
                     stret(R1,R2)
                     
                     if R1.s <= 0 and R2.s > 0:
+                        R1_v = R1_v + 1
                         # d = d + 1
                         break
                 
@@ -384,13 +385,23 @@ def testovaci_turnaj():
     
                 vitez(R1,R2)
                 stat.append([i,R1_v])
-                
-        index = max(stat)
-        index_h = index[0]
+            
+        # print(stat)
+        maximum = 0   
+        cahmp = None
+        for pole in stat:
+            if pole[1] > maximum:
+                champ = pole [0]
+                maximum = pole[1]
+            
+        # print(index)
+        index_h = maximum
+        # print (maximum)
+        # print(champ)
+        # print(Zbroj)
+        # print(Drevec)
+        # print(Kun)
         
-        Vybrana_zbroj = Zbroj
-        Vybrany_drevec = Drevec
-        Vybrany_kun = Kun
     
     
 def generator():
@@ -412,9 +423,12 @@ def generator():
         
 def generator_vybaveni():
     global Zbroj, Drevec, Kun
-    Zbroj = {"zadna":[0,0], "kozena":[-1*(rd.randint(0, 15)),rd.randint(0, 20)], "krouzkova":[-1*(rd.randint(0, 15)),rd.randint(0, 20)],"platova":[-1*(rd.randint(0, 15)),rd.randint(0, 20)]}
+    Zbroj = {"zadna":[0,0], "kozena":[-1*(rd.randint(0, 15)),rd.randint(2, 20)], "krouzkova":[-1*(rd.randint(4, 15)),rd.randint(5, 20)],"platova":[-1*(rd.randint(0, 15)),rd.randint(0, 20)]}
     Drevec = {"lehky":[0,rd.randint(0, 20)],"stredni":[-1*(rd.randint(0, 15)),rd.randint(0, 20)],"tezky":[-1*(rd.randint(0, 10)),rd.randint(0, 20)]}
     Kun = {"cval":[0,0],"klus":[-1*(rd.randint(0, 15)),rd.randint(0, 20)],"trysk":[-1*(rd.randint(0, 15)),rd.randint(0, 20)]}
     
     return Zbroj,Drevec,Kun
 testovaci_turnaj()
+
+
+
