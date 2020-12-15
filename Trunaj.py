@@ -30,7 +30,6 @@ class Rytir():
                 self.pos_s = pozice_stitu
                 break
 
-       
     def utok(self,kostka_uc,rychlost_uc,utok_unava):
         # Vypocet utocneho cisla
         self.uc = rd.randrange(1,kostka_uc + 1) + rychlost_uc
@@ -47,7 +46,7 @@ def vytvor_rytire(typ_hrace):
     oc = 0
     pos_d =""
     pos_s = ""
-    typ_zbroje = {"zadna":[0,0], "kozena":[-1,5], "krouzkova":[-2,8],"platova":[-3,11]}
+    typ_zbroje = {"zadna":[0,0], "kozena":[-7,8], "krouzkova":[-8,10],"platova":[-20,24]}
     
     if typ_hrace == "hrac":
         jmeno = input("Jmeno: ")
@@ -75,8 +74,8 @@ def priprava_utoku(typ_hrace):
     # Parametry vybavení
     uc_unava = 0
     rychlost_unava = 0
-    typ_drevce = {"lehky":[0,5],"stredni":[-1,8],"tezky":[-2,15]}
-    kun = {"cval":[0,0],"klus":[-1,3],"trysk":[-3,7]}
+    typ_drevce = {"lehky":[-3,15],"stredni":[-5,20],"tezky":[-10,24]}
+    kun = {"cval":[0,0],"klus":[-4,7],"trysk":[-9,10]}
     
     if typ_hrace == "hrac":
         # Vyber drevce
@@ -115,7 +114,6 @@ def priprava_utoku(typ_hrace):
             
             return kostka_uc , rychlost_uc , utok_unava
     
-  
 def stret(R1,R2):
     global R1_blok,R2_blok
     if R1.pos_s == R2.pos_d:
@@ -187,7 +185,6 @@ def easter_egg(R1,R2):
     if R1.jmeno.lower() == "mintaka" or R2.jmeno.lower() == "mintaka":
         return True
                     
-
 # Multiplayer
 def turnaj_MP():
     global p, pocet_kol,R1_blok, R2_blok
@@ -240,7 +237,6 @@ def turnaj_SP():
     parametry_utoku  = priprava_utoku(typ_hrace = "hrac")
     R1.utok(parametry_utoku[0] , parametry_utoku[1] , parametry_utoku [2])
     
-   
     # Automaticky vytvoreny rytir
     R2 = vytvor_rytire(typ_hrace = "pocitac")
     parametry_utoku  = priprava_utoku(typ_hrace = "pocitac")
