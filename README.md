@@ -1,8 +1,11 @@
-#How to play
-Download Jouster.zip
-Unpack
-run Jouster.py
----------------------------------------------------------------------------
+**How to play:**
+
+1. Download Jouster.zip
+2. Unpack
+3. run Jouster.py
+
+**Description**
+
 The game is called "Jouster" inspired by jousting tournaments in real life. 
 
 The goal is to beat the other knight either by knocking him off the horse or survive with more health points after 3 rounds. 
