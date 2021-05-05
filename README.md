@@ -1,4 +1,9 @@
-The game is called "Jouster" inspired by jousting tournaments in real life. (main program is Jouster.py)
+#How to play
+Download Jouster.zip
+Unpack
+run Jouster.py
+---------------------------------------------------------------------------
+The game is called "Jouster" inspired by jousting tournaments in real life. 
 
 The goal is to beat the other knight either by knocking him off the horse or survive with more health points after 3 rounds. 
 In the beginning you can select single/multiplayer (start_screen.py). 
